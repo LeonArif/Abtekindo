@@ -23,6 +23,55 @@ type Status =
   | { state: "success"; message: string }
   | { state: "error"; message: string };
 
+// Field labels for turning API validation locations (e.g. "body.message")
+// into the Indonesian labels visitors actually see on the form.
+const FIELD_LABELS: Record<string, string> = {
+  name: "Nama",
+  phone: "Nomor WhatsApp",
+  email: "Email",
+  message: "Pesan",
+};
+
+function fieldErrorMessage(location: string, apiMessage: string): string | null {
+  const field = location.replace(/^body\./, "");
+  const label = FIELD_LABELS[field];
+  if (!label) return null;
+
+  // huma's messages are in English and follow a fixed format per validation
+  // keyword (see danielgtaylor/huma/v2/validation.Msg*); translate the common
+  // cases into something a visitor can act on.
+  if (/expected length >=/i.test(apiMessage)) {
+    const min = apiMessage.match(/>=\s*(\d+)/)?.[1];
+    return min ? `${label} minimal ${min} karakter.` : `${label} terlalu pendek.`;
+  }
+  if (/expected length <=/i.test(apiMessage)) {
+    const max = apiMessage.match(/<=\s*(\d+)/)?.[1];
+    return max ? `${label} maksimal ${max} karakter.` : `${label} terlalu panjang.`;
+  }
+  if (/expected required property/i.test(apiMessage)) {
+    return `${label} wajib diisi.`;
+  }
+  if (/expected string to be RFC 5322 email/i.test(apiMessage)) {
+    return `${label} bukan format email yang valid.`;
+  }
+  return `${label} tidak valid.`;
+}
+
+function friendlyErrorMessage(body: {
+  detail?: string;
+  errors?: { location?: string; message?: string }[] | null;
+}): string {
+  const fieldMessages = (body.errors ?? [])
+    .map((e) => (e.location && e.message ? fieldErrorMessage(e.location, e.message) : null))
+    .filter((m): m is string => m !== null);
+
+  if (fieldMessages.length > 0) {
+    return fieldMessages.join(" ");
+  }
+
+  return body.detail ?? "Maaf, pesan gagal dikirim. Silakan coba lagi atau hubungi kami via WhatsApp.";
+}
+
 export function ContactForm({
   source = "contact",
   productId,
@@ -73,16 +122,11 @@ export function ContactForm({
       const body = (await response.json().catch(() => ({}))) as {
         message?: string;
         detail?: string;
+        errors?: { location?: string; message?: string }[] | null;
       };
 
       if (!response.ok) {
-        setStatus({
-          state: "error",
-          // The API already returns visitor-facing Indonesian messages.
-          message:
-            body.detail ??
-            "Maaf, pesan gagal dikirim. Silakan coba lagi atau hubungi kami via WhatsApp.",
-        });
+        setStatus({ state: "error", message: friendlyErrorMessage(body) });
         return;
       }
 
