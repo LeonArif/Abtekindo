@@ -1,0 +1,16 @@
+# env files
+.env
+.env.*
+!.env.example
+
+# go
+/backend/bin/
+/backend/tmp/
+/backend/*.log
+
+# tooling output
+/graphify-out/
+
+# os
+.DS_Store
+Thumbs.db

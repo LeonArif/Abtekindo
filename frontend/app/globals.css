@@ -1,0 +1,95 @@
+@import "tailwindcss";
+
+/**
+ * Design tokens for PT Abtekindo Primalestari.
+ *
+ * The palette is a cool corporate blue on white: professional for the
+ * Indonesian HVAC market, on-category for cooling, and it keeps WhatsApp green
+ * as the only saturated accent so calls to action stay the most prominent
+ * thing on any page.
+ *
+ * This site deliberately commits to a single light appearance. The
+ * create-next-app scaffold shipped a prefers-color-scheme block that flipped
+ * only two variables; every custom-coloured section here would have failed
+ * contrast under it, so it was removed rather than half-supported.
+ */
+@theme {
+  /* Brand blue */
+  --color-brand-50: #eff6ff;
+  --color-brand-100: #dbeafe;
+  --color-brand-200: #bfdbfe;
+  --color-brand-300: #93c5fd;
+  --color-brand-400: #60a5fa;
+  --color-brand-500: #3b82f6;
+  --color-brand-600: #2563eb;
+  --color-brand-700: #1d4ed8;
+  --color-brand-800: #1e40af;
+  --color-brand-900: #1e3a8a;
+  --color-brand-950: #172554;
+
+  /* Neutrals */
+  --color-ink-50: #f8fafc;
+  --color-ink-100: #f1f5f9;
+  --color-ink-200: #e2e8f0;
+  --color-ink-300: #cbd5e1;
+  --color-ink-400: #94a3b8;
+  --color-ink-500: #64748b;
+  --color-ink-600: #475569;
+  --color-ink-700: #334155;
+  --color-ink-800: #1e293b;
+  --color-ink-900: #0f172a;
+
+  /* WhatsApp brand green, reserved for chat actions only. */
+  --color-whatsapp: #25d366;
+  --color-whatsapp-dark: #1da851;
+
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+
+  --radius-card: 0.875rem;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    /* Offsets in-page anchors so a heading is not hidden behind the sticky
+       header when a visitor jumps to a section. */
+    scroll-padding-top: 5rem;
+  }
+
+  /* The scaffold set `font-family: Arial, Helvetica, sans-serif` here, which
+     silently overrode the Geist font the layout loads. */
+  body {
+    background: #ffffff;
+    color: var(--color-ink-800);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* A visible, consistent focus ring on every interactive element. The browser
+     default is easy to lose against this palette. */
+  :focus-visible {
+    outline: 2px solid var(--color-brand-600);
+    outline-offset: 2px;
+    border-radius: 0.25rem;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+/* Wide content such as spec tables and price lists scrolls inside its own box,
+   so the page body itself never scrolls sideways on a phone. */
+.scroll-x {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}

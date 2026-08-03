@@ -1,0 +1,26 @@
+version: "2"
+sql:
+  - engine: postgresql
+    queries: db/queries
+    schema: db/migrations
+    gen:
+      go:
+        package: store
+        out: internal/store
+        sql_package: pgx/v5
+        emit_empty_slices: true
+        emit_pointers_for_null_types: true
+        emit_prepared_queries: false
+        overrides:
+          # capacity_pk is the only numeric column. Every real AC capacity
+          # (0.5, 0.75, 1, 1.5, 2, 2.5, 3, 5 PK) is exactly representable in
+          # binary floating point, so float64 is lossless here and far easier
+          # to work with than pgtype.Numeric. Money is bigint rupiah and never
+          # touches a float.
+          - db_type: pg_catalog.numeric
+            go_type: float64
+          - db_type: pg_catalog.numeric
+            nullable: true
+            go_type:
+              type: float64
+              pointer: true
