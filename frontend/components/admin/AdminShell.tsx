@@ -37,7 +37,9 @@ export function AdminShell({ children }: { children: ReactNode }) {
   }, [state.status, isLoginPage, router]);
 
   if (isLoginPage) {
-    return <>{children}</>;
+    // No AdminShell header/nav here, so the skip link's target has to be
+    // provided directly instead of coming from the <main> below.
+    return <div id="konten">{children}</div>;
   }
 
   if (state.status === "loading") {
@@ -117,7 +119,9 @@ export function AdminShell({ children }: { children: ReactNode }) {
         </nav>
       </header>
 
-      <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">{children}</main>
+      <main id="konten" className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+        {children}
+      </main>
     </div>
   );
 }
