@@ -22,9 +22,11 @@ export const metadata: Metadata = {
 /**
  * Admin layout.
  *
- * The CMS deliberately does not use the public site's Header and Footer: a
- * navigation aimed at customers is noise for an operator editing prices, and
- * the floating WhatsApp button would sit on top of form controls.
+ * The public Header, Footer, and FloatingWhatsApp button live in
+ * `app/(situs)/layout.tsx`, not the root layout, so `app/admin/**` (a
+ * sibling of the `(situs)` route group) never renders them: a navigation
+ * aimed at customers is noise for an operator editing prices, and the
+ * floating WhatsApp button would sit on top of form controls.
  */
 export default function AdminLayout({ children }: { children: ReactNode }) {
   return (

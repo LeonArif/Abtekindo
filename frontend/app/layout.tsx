@@ -2,9 +2,6 @@ import type { Metadata, Viewport } from "next";
 import { Geist } from "next/font/google";
 
 import { SITE, SITE_URL } from "@/lib/site";
-import { Header } from "@/components/layout/Header";
-import { Footer } from "@/components/layout/Footer";
-import { FloatingWhatsApp } from "@/components/layout/FloatingWhatsApp";
 import { LocalBusinessJsonLd } from "@/components/seo/JsonLd";
 import "./globals.css";
 
@@ -82,12 +79,7 @@ export default function RootLayout({
           Lewati ke konten utama
         </a>
 
-        <Header />
-        <main id="konten" className="flex-1">
-          {children}
-        </main>
-        <Footer />
-        <FloatingWhatsApp />
+        {children}
         <LocalBusinessJsonLd />
       </body>
     </html>
