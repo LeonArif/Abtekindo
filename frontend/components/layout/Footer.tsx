@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import { NAV_LINKS, SITE, formatAddress, hasWhatsApp } from "@/lib/site";
+import { NAV_LINKS, SITE, formatAddress, hasWhatsApp, hasPhone } from "@/lib/site";
 import { generalEnquiry } from "@/lib/whatsapp";
 import { Logo } from "./Logo";
 import { WhatsAppIcon } from "./MobileNav";
@@ -83,14 +83,16 @@ export function Footer() {
             </h2>
             <address className="mt-4 space-y-3 text-sm not-italic">
               <p className="leading-relaxed">{formatAddress()}</p>
-              <p>
-                <a
-                  href={`tel:${SITE.phone.replace(/[^\d+]/g, "")}`}
-                  className="inline-flex min-h-9 items-center hover:text-white"
-                >
-                  {SITE.phone}
-                </a>
-              </p>
+              {hasPhone ? (
+                <p>
+                  <a
+                    href={`tel:${SITE.phone.replace(/[^\d+]/g, "")}`}
+                    className="inline-flex min-h-9 items-center hover:text-white"
+                  >
+                    {SITE.phone}
+                  </a>
+                </p>
+              ) : null}
               <p>
                 <a
                   href={`mailto:${SITE.email}`}

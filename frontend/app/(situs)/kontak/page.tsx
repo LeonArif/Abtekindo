@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
-import { SITE, formatAddress, hasMaps, hasWhatsApp } from "@/lib/site";
+import { SITE, formatAddress, hasMaps, hasWhatsApp, hasPhone } from "@/lib/site";
 import { generalEnquiry } from "@/lib/whatsapp";
 import { Container, Section, SectionHeading } from "@/components/ui/Container";
 import { ExternalButtonLink } from "@/components/ui/Button";
@@ -18,7 +18,7 @@ export const metadata: Metadata = {
 };
 
 export default function ContactPage() {
-  const telHref = `tel:${SITE.phone.replace(/[^\d+]/g, "")}`;
+  const telHref = hasPhone ? `tel:${SITE.phone.replace(/[^\d+]/g, "")}` : "";
 
   return (
     <>
@@ -80,11 +80,13 @@ export default function ContactPage() {
                 </ContactRow>
               ) : null}
 
-              <ContactRow icon={<PhoneIcon className="h-5 w-5" />} label="Telepon">
-                <a href={telHref} className="font-medium text-ink-900 hover:text-brand-700">
-                  {SITE.phone}
-                </a>
-              </ContactRow>
+              {hasPhone ? (
+                <ContactRow icon={<PhoneIcon className="h-5 w-5" />} label="Telepon">
+                  <a href={telHref} className="font-medium text-ink-900 hover:text-brand-700">
+                    {SITE.phone}
+                  </a>
+                </ContactRow>
+              ) : null}
 
               <ContactRow icon={<MailIcon className="h-5 w-5" />} label="Email">
                 <a

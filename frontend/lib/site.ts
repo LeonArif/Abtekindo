@@ -105,6 +105,7 @@ export const SITE_URL = (
 /** True when a placeholder is still in place, so the UI can avoid dead links. */
 export const hasWhatsApp = !SITE.whatsapp.includes("X");
 export const hasMaps = SITE.mapsEmbedUrl.length > 0;
+export const hasPhone = !SITE.phone.includes("X");
 
 /** Formatted single-line address. */
 export function formatAddress(): string {
