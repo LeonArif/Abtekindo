@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import { NAV_LINKS, SITE, hasWhatsApp } from "@/lib/site";
+import { NAV_LINKS, SITE, hasWhatsApp, hasPhone } from "@/lib/site";
 import { generalEnquiry } from "@/lib/whatsapp";
 import { ExternalButtonLink } from "@/components/ui/Button";
 import { Logo } from "./Logo";
@@ -25,13 +25,15 @@ export function Header() {
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-2 text-sm sm:px-6 lg:px-8">
           <p className="truncate">{SITE.tagline}</p>
           <div className="flex shrink-0 items-center gap-5">
-            <a
-              href={`tel:${SITE.phone.replace(/[^\d+]/g, "")}`}
-              className="inline-flex items-center gap-1.5 hover:text-white"
-            >
-              <PhoneIcon className="h-4 w-4" />
-              {SITE.phone}
-            </a>
+            {hasPhone ? (
+              <a
+                href={`tel:${SITE.phone.replace(/[^\d+]/g, "")}`}
+                className="inline-flex items-center gap-1.5 hover:text-white"
+              >
+                <PhoneIcon className="h-4 w-4" />
+                {SITE.phone}
+              </a>
+            ) : null}
             <a
               href={`mailto:${SITE.email}`}
               className="hidden items-center gap-1.5 hover:text-white md:inline-flex"
