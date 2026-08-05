@@ -26,7 +26,7 @@ export function ServiceDetail({ service }: { service: Service }) {
       <div className="grid gap-6 p-6 sm:p-8 lg:grid-cols-[1fr_1.1fr] lg:gap-10">
         <div>
           <div className="flex items-start gap-4">
-            <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-brand-50 text-brand-600">
+            <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-[2px] bg-brand-50 text-brand-600">
               <ServiceIcon name={service.icon} className="h-6 w-6" />
             </span>
             <div>
@@ -36,7 +36,7 @@ export function ServiceDetail({ service }: { service: Service }) {
               {lowest !== null ? (
                 <p className="mt-1 text-sm text-ink-600">
                   Mulai dari{" "}
-                  <span className="font-semibold text-ink-900">
+                  <span className="font-display font-semibold text-brand-700">
                     {formatRupiah(lowest)}
                   </span>
                 </p>
@@ -88,7 +88,7 @@ export function ServiceDetail({ service }: { service: Service }) {
             <h3 className="text-sm font-semibold uppercase tracking-wide text-ink-500">
               Daftar harga
             </h3>
-            <div className="scroll-x mt-3 rounded-xl border border-ink-200">
+            <div className="scroll-x mt-3 rounded-[2px] border border-ink-200">
               <table className="w-full text-left text-sm">
                 <caption className="sr-only">Daftar harga {service.name}</caption>
                 <thead className="bg-ink-50 text-xs uppercase tracking-wide text-ink-500">
@@ -113,7 +113,7 @@ export function ServiceDetail({ service }: { service: Service }) {
                           </span>
                         ) : null}
                       </th>
-                      <td className="whitespace-nowrap px-4 py-3 text-right font-semibold text-ink-900">
+                      <td className="font-display whitespace-nowrap px-4 py-3 text-right font-semibold text-ink-900">
                         {formatRupiah(rate.priceFrom)}
                         <span className="block text-xs font-normal text-ink-500">
                           / {rate.unit}
@@ -125,7 +125,7 @@ export function ServiceDetail({ service }: { service: Service }) {
                             href={serviceRateEnquiry(service.name, rate.label)}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="inline-flex min-h-11 items-center rounded-lg px-3 text-sm font-medium text-brand-600 hover:bg-brand-50"
+                            className="inline-flex min-h-11 items-center rounded-[2px] px-3 text-sm font-medium text-brand-600 hover:bg-brand-50"
                           >
                             Pesan
                           </a>
@@ -156,9 +156,9 @@ export function ServiceSummaryCard({ service }: { service: Service }) {
   return (
     <a
       href={`/layanan#${service.slug}`}
-      className="group flex h-full flex-col rounded-card border border-ink-200 bg-white p-6 transition-shadow hover:shadow-lg"
+      className="group flex h-full w-full flex-col rounded-card border border-ink-200 bg-white p-6 transition-shadow hover:shadow-lg"
     >
-      <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-brand-50 text-brand-600">
+      <span className="flex h-12 w-12 items-center justify-center rounded-[2px] bg-brand-50 text-brand-600">
         <ServiceIcon name={service.icon} className="h-6 w-6" />
       </span>
       <h3 className="mt-4 text-lg font-semibold text-ink-900 group-hover:text-brand-700">
@@ -168,10 +168,12 @@ export function ServiceSummaryCard({ service }: { service: Service }) {
         {service.summary}
       </p>
       {lowest !== null ? (
-        <p className="mt-4 text-sm text-ink-500">
-          Mulai dari{" "}
-          <span className="font-semibold text-ink-900">{formatRupiah(lowest)}</span>
-        </p>
+        <div className="mt-4 rounded-[2px] bg-brand-50 px-3 py-2 transition-colors group-hover:bg-brand-100">
+          <p className="text-[11px] font-medium text-brand-700/70">Mulai dari</p>
+          <p className="font-display text-base font-semibold text-brand-800">
+            {formatRupiah(lowest)}
+          </p>
+        </div>
       ) : null}
     </a>
   );

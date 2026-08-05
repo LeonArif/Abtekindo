@@ -10,6 +10,7 @@ import { Badge } from "@/components/ui/Badge";
 import { ButtonLink, ExternalButtonLink } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { ProductImage } from "@/components/ui/Placeholder";
+import { Scribble } from "@/components/ui/Scribble";
 import { ProductCard } from "@/components/product/ProductCard";
 import { WhatsAppIcon } from "@/components/layout/MobileNav";
 import { BreadcrumbJsonLd, ProductJsonLd } from "@/components/seo/JsonLd";
@@ -138,7 +139,7 @@ export default async function ProductPage(props: PageProps<"/produk/[slug]">) {
                       src={image.url}
                       alt={image.alt || product.name}
                       sizes="15vw"
-                      className="rounded-lg border border-ink-200"
+                      className="rounded-[2px] border border-ink-200"
                     />
                   </li>
                 ))}
@@ -161,9 +162,10 @@ export default async function ProductPage(props: PageProps<"/produk/[slug]">) {
               {product.refrigerant ? <Badge>{product.refrigerant}</Badge> : null}
             </div>
 
-            <div className="mt-6 rounded-card bg-ink-50 p-5">
-              <p className="text-sm text-ink-500">Harga mulai dari</p>
-              <p className="mt-1 text-3xl font-bold text-ink-900">
+            <div className="mt-6 rounded-card border border-brand-200 bg-brand-50 p-5 sm:p-6">
+              <Badge tone="brand">Harga terbaik</Badge>
+              <p className="mt-3 text-sm font-medium text-ink-600">Harga mulai dari</p>
+              <p className="font-display mt-1 text-4xl font-semibold text-brand-800">
                 {formatRupiah(product.startingPrice)}
               </p>
               <p className="mt-2 text-sm text-ink-600">
@@ -209,8 +211,9 @@ export default async function ProductPage(props: PageProps<"/produk/[slug]">) {
           </div>
         </div>
 
-        <section className="pb-12" aria-labelledby="spesifikasi">
-          <h2 id="spesifikasi" className="text-2xl font-bold text-ink-900">
+        <section className="relative overflow-hidden pb-12" aria-labelledby="spesifikasi">
+          <Scribble variant="cross" className="right-6 top-0 h-11 w-11 opacity-40" />
+          <h2 id="spesifikasi" className="text-2xl text-ink-900">
             Spesifikasi
           </h2>
           {/* Wrapped so the table scrolls inside its own box on a narrow screen

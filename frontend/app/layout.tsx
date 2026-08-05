@@ -1,17 +1,24 @@
 import type { Metadata, Viewport } from "next";
-import { Geist } from "next/font/google";
+import { Karla, Oswald } from "next/font/google";
 
 import { SITE, SITE_URL } from "@/lib/site";
-import { Header } from "@/components/layout/Header";
-import { Footer } from "@/components/layout/Footer";
-import { FloatingWhatsApp } from "@/components/layout/FloatingWhatsApp";
+import { SiteChrome } from "@/components/layout/SiteChrome";
 import { LocalBusinessJsonLd } from "@/components/seo/JsonLd";
 import "./globals.css";
 
-// Geist Mono came with the scaffold but nothing uses it, so it is not loaded.
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+// Display face for headings, prices and stat numbers.
+const oswald = Oswald({
+  variable: "--font-oswald",
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  display: "swap",
+});
+
+// Body face for everything else.
+const karla = Karla({
+  variable: "--font-karla",
+  subsets: ["latin"],
+  weight: ["400", "500", "700"],
   display: "swap",
 });
 
@@ -60,7 +67,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#1e3a8a",
+  themeColor: "#111110",
   width: "device-width",
   initialScale: 1,
 };
@@ -71,23 +78,22 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="id" className={`${geistSans.variable} h-full`}>
+    <html lang="id" className={`${oswald.variable} ${karla.variable} h-full`}>
       <body className="flex min-h-full flex-col antialiased">
         {/* Lets a keyboard or screen reader user reach the content without
             tabbing through the whole navigation on every page. */}
         <a
           href="#konten"
-          className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-lg focus:bg-brand-600 focus:px-4 focus:py-3 focus:text-white"
+          className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:bg-brand-900 focus:px-4 focus:py-3 focus:text-white"
         >
           Lewati ke konten utama
         </a>
 
-        <Header />
-        <main id="konten" className="flex-1">
-          {children}
-        </main>
-        <Footer />
-        <FloatingWhatsApp />
+        <SiteChrome>
+          <main id="konten" className="flex-1">
+            {children}
+          </main>
+        </SiteChrome>
         <LocalBusinessJsonLd />
       </body>
     </html>

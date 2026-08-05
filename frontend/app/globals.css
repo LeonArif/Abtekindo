@@ -1,51 +1,64 @@
 @import "tailwindcss";
 
 /**
- * Design tokens for PT Abtekindo Primalestari.
+ * Design tokens for PT Abtekindo Primalestari — "Cold Front" theme.
  *
- * The palette is a cool corporate blue on white: professional for the
- * Indonesian HVAC market, on-category for cooling, and it keeps WhatsApp green
- * as the only saturated accent so calls to action stay the most prominent
- * thing on any page.
+ * Warm off-white neutrals with a single pastel-blue accent and a sharp,
+ * editorial feel: hairline borders, near-zero radius, Oswald for headings and
+ * Karla for body copy. The `ink-*` and `brand-*` names are kept from the
+ * previous palette on purpose — nearly every component already reads them, so
+ * remapping the values here re-themes the whole site without touching each
+ * component's classes.
  *
- * This site deliberately commits to a single light appearance. The
- * create-next-app scaffold shipped a prefers-color-scheme block that flipped
- * only two variables; every custom-coloured section here would have failed
- * contrast under it, so it was removed rather than half-supported.
+ * `whatsapp` is also remapped: the new theme's calls to action are solid
+ * black rather than WhatsApp green, so every `variant="whatsapp"` button
+ * across the site turns into the new theme's primary CTA colour for free.
  */
 @theme {
-  /* Brand blue */
-  --color-brand-50: #eff6ff;
-  --color-brand-100: #dbeafe;
-  --color-brand-200: #bfdbfe;
-  --color-brand-300: #93c5fd;
-  --color-brand-400: #60a5fa;
-  --color-brand-500: #3b82f6;
-  --color-brand-600: #2563eb;
-  --color-brand-700: #1d4ed8;
-  --color-brand-800: #1e40af;
-  --color-brand-900: #1e3a8a;
-  --color-brand-950: #172554;
+  /* Brand accent: pastel blue, darkening to near-black at the CTA end of the
+     scale (the theme's "black solid button" comes from brand-900). */
+  --color-brand-50: oklch(97% 0.012 235);
+  --color-brand-100: oklch(94% 0.028 235);
+  --color-brand-200: oklch(90% 0.045 235);
+  --color-brand-300: oklch(82% 0.06 235);
+  --color-brand-400: oklch(74% 0.09 235);
+  --color-brand-500: oklch(64% 0.1 235);
+  --color-brand-600: oklch(54% 0.1 235);
+  --color-brand-700: oklch(45% 0.1 235);
+  --color-brand-800: oklch(34% 0.08 235);
+  --color-brand-900: #111110;
 
-  /* Neutrals */
-  --color-ink-50: #f8fafc;
-  --color-ink-100: #f1f5f9;
-  --color-ink-200: #e2e8f0;
-  --color-ink-300: #cbd5e1;
-  --color-ink-400: #94a3b8;
-  --color-ink-500: #64748b;
-  --color-ink-600: #475569;
-  --color-ink-700: #334155;
-  --color-ink-800: #1e293b;
-  --color-ink-900: #0f172a;
+  /* Secondary accent: warm gold, used sparingly for alternating icon tiles
+     and small highlights so the page does not read as monochrome-plus-blue. */
+  --color-gold-100: oklch(94% 0.05 95);
+  --color-gold-200: oklch(88% 0.09 95);
+  --color-gold-300: oklch(80% 0.09 95);
 
-  /* WhatsApp brand green, reserved for chat actions only. */
-  --color-whatsapp: #25d366;
-  --color-whatsapp-dark: #1da851;
+  /* Neutrals: warm cream/graphite rather than cool slate, matching the
+     canvas background (#e9e7e1) the design was built against. */
+  --color-ink-50: #fbfaf7;
+  --color-ink-100: #f4f2ec;
+  --color-ink-200: #eceae3;
+  --color-ink-300: #ddd9cc;
+  --color-ink-400: #a5a394;
+  --color-ink-500: #8a8878;
+  --color-ink-600: #57564c;
+  --color-ink-700: #3a382f;
+  --color-ink-800: #221f19;
+  --color-ink-900: #111110;
 
-  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  /* Primary call-to-action colour. Named "whatsapp" because every WhatsApp
+     button in the app still uses this token — the theme just makes that
+     colour solid black instead of brand green. */
+  --color-whatsapp: #111110;
+  --color-whatsapp-dark: #2b2a25;
 
-  --radius-card: 0.875rem;
+  --font-sans: var(--font-karla), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-oswald), ui-sans-serif, system-ui, sans-serif;
+
+  /* Sharp, editorial corners: 2px reads as "considered" rather than "rounded
+     off", and matches every card, panel and price box in the design. */
+  --radius-card: 0.125rem;
 }
 
 @layer base {
@@ -57,12 +70,23 @@
   }
 
   /* The scaffold set `font-family: Arial, Helvetica, sans-serif` here, which
-     silently overrode the Geist font the layout loads. */
+     silently overrode the loaded font. */
   body {
     background: #ffffff;
     color: var(--color-ink-800);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
+  }
+
+  /* Headings carry the theme's typographic personality: every h1-h4 site-wide
+     switches to the display face without touching each component. */
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: -0.01em;
   }
 
   /* A visible, consistent focus ring on every interactive element. The browser
@@ -92,4 +116,61 @@
 .scroll-x {
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
+}
+
+/* Story-style carousel progress fill: the active bar grows over the slide's
+   dwell time so a visitor can see exactly when it will advance. */
+@keyframes carousel-progress {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+/* Decorative scribbles drift like a snowflake settling: side-to-side sway plus
+   a vertical bob and rotation. Each instance sets its own --drift-x/y/rot so a
+   page full of them doesn't move in obvious unison. */
+@keyframes snowflake-drift {
+  0%,
+  100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  50% {
+    transform: translate(var(--drift-x, 8px), var(--drift-y, 16px)) rotate(var(--drift-rot, 14deg));
+  }
+}
+
+/* Page-load entrance: sections rise into place once, on mount. Not a scroll
+   effect, so it never re-fires as a visitor scrolls back up. */
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-reveal {
+  animation: fade-up 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Hero headline column: slides in from the left into its final position. */
+@keyframes slide-in-left {
+  from {
+    opacity: 0;
+    transform: translateX(-48px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-slide-in-left {
+  animation: slide-in-left 1.5s cubic-bezier(0.16, 1, 0.3, 1) both;
 }

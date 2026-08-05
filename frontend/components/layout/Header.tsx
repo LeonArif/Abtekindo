@@ -18,12 +18,12 @@ export function Header() {
   const whatsappUrl = hasWhatsApp ? generalEnquiry() : null;
 
   return (
-    <header className="sticky top-0 z-40 border-b border-ink-200 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/80">
+    <header className="sticky top-0 z-40 border-b border-ink-900 bg-white">
       {/* Utility bar: on a phone, calling is often faster than typing, so the
-          phone number stays visible above the fold. */}
-      <div className="hidden bg-brand-900 text-brand-50 sm:block">
+          phone number and address stay visible above the fold. */}
+      <div className="hidden bg-ink-900 text-ink-100 sm:block">
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-2 text-sm sm:px-6 lg:px-8">
-          <p className="truncate">{SITE.tagline}</p>
+          <p className="truncate">{SITE.address.street}</p>
           <div className="flex shrink-0 items-center gap-5">
             <a
               href={`tel:${SITE.phone.replace(/[^\d+]/g, "")}`}
@@ -43,7 +43,7 @@ export function Header() {
         </div>
       </div>
 
-      <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8">
+      <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3.5 sm:px-6 lg:px-8">
         <Logo />
 
         <nav className="hidden lg:block" aria-label="Navigasi utama">
@@ -70,7 +70,7 @@ export function Header() {
           ) : (
             <Link
               href="/kontak"
-              className="hidden min-h-11 items-center rounded-lg bg-brand-600 px-4 text-sm font-semibold text-white hover:bg-brand-700 sm:inline-flex"
+              className="hidden min-h-11 items-center rounded-[2px] bg-brand-900 px-4 text-sm font-semibold text-white hover:bg-ink-800 sm:inline-flex"
             >
               Hubungi Kami
             </Link>

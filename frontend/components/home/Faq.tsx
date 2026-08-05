@@ -1,4 +1,5 @@
 import { Section, SectionHeading } from "@/components/ui/Container";
+import { Scribble } from "@/components/ui/Scribble";
 import { FaqJsonLd } from "@/components/seo/JsonLd";
 
 /**
@@ -56,7 +57,9 @@ export function Faq() {
   return (
     <>
       <FaqJsonLd items={FAQ_ITEMS} />
-      <Section tone="muted" id="faq">
+      <Section tone="muted" id="faq" className="relative overflow-hidden">
+        <Scribble variant="cross" className="left-[8%] top-6 h-10 w-10 opacity-40" />
+        <Scribble variant="compass" className="right-[8%] bottom-10 h-12 w-12 opacity-30" tone="gold" />
         <SectionHeading
           eyebrow="FAQ"
           title="Pertanyaan yang sering diajukan"
@@ -65,7 +68,7 @@ export function Faq() {
         <ul className="mx-auto mt-10 max-w-3xl space-y-3">
           {FAQ_ITEMS.map((item) => (
             <li key={item.question}>
-              <details className="group rounded-card border border-ink-200 bg-white [&_summary::-webkit-details-marker]:hidden">
+              <details className="group border border-ink-200 bg-white [&_summary::-webkit-details-marker]:hidden">
                 <summary className="flex min-h-14 cursor-pointer list-none items-center justify-between gap-4 px-5 py-4 text-left font-semibold text-ink-900">
                   {item.question}
                   <svg

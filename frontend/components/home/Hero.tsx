@@ -2,8 +2,9 @@ import { SITE, hasWhatsApp } from "@/lib/site";
 import { generalEnquiry } from "@/lib/whatsapp";
 import { ButtonLink, ExternalButtonLink } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
-import { AirConditionerGlyph } from "@/components/ui/Placeholder";
+import { Scribble } from "@/components/ui/Scribble";
 import { WhatsAppIcon } from "@/components/layout/MobileNav";
+import { HeroCarousel } from "./HeroCarousel";
 
 /**
  * Homepage hero.
@@ -13,70 +14,87 @@ import { WhatsAppIcon } from "@/components/layout/MobileNav";
  * before talking. The headline names the service rather than the company,
  * because a visitor arriving from a search for "service AC Jakarta" needs to
  * see their own words first.
+ *
+ * The stat row only shows numbers this codebase can actually stand behind —
+ * years active, brand count and service-area count are all derived from
+ * `SITE`, not invented marketing figures.
  */
 export function Hero() {
+  const yearsActive = new Date().getFullYear() - SITE.foundedYear;
+
   return (
     <section className="relative overflow-hidden bg-brand-900 text-white">
-      {/* Decorative background. aria-hidden so it is never announced. */}
-      <div className="pointer-events-none absolute inset-0" aria-hidden="true">
-        <div className="absolute -right-24 -top-24 h-96 w-96 rounded-full bg-brand-700/40 blur-3xl" />
-        <div className="absolute -bottom-32 left-1/4 h-96 w-96 rounded-full bg-brand-600/30 blur-3xl" />
-      </div>
+      {/* Pinned to the section's own edges, well outside the text and stat
+          columns on every breakpoint. */}
+      <Scribble variant="cross" className="right-3 top-3 h-9 w-9 opacity-30" />
+      <Scribble variant="compass" className="left-3 bottom-3 h-10 w-10 opacity-25" tone="gold" />
+      <Scribble variant="compass" className="right-[3%] top-1/3 hidden h-8 w-8 opacity-20 lg:block" />
+      <Scribble
+        variant="cross"
+        className="left-[2%] top-1/2 hidden h-7 w-7 opacity-20 lg:block"
+        tone="gold"
+      />
 
       <Container>
-        <div className="relative grid gap-10 py-16 lg:grid-cols-2 lg:items-center lg:gap-16 lg:py-24">
-          <div>
-            <p className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-1.5 text-sm font-medium text-brand-100 ring-1 ring-inset ring-white/20">
-              Distributor {SITE.brands.map((b) => b.name).join(" · ")}
-            </p>
+        <div className="grid gap-10 py-14 lg:grid-cols-2 lg:items-center lg:gap-12 lg:py-20">
+          <div className="animate-slide-in-left relative">
+            <span className="text-xs font-semibold uppercase tracking-[0.12em] text-brand-300">
+              Jual &middot; Pasang &middot; Servis AC
+            </span>
 
-            <h1 className="mt-6 text-4xl font-bold leading-tight tracking-tight sm:text-5xl lg:text-[3.25rem]">
+            <h1 className="mt-4 text-4xl leading-[1.05] sm:text-5xl lg:text-[3.25rem]">
               Service, pasang, dan beli AC dalam satu tempat
             </h1>
 
-            <p className="mt-5 max-w-xl text-lg leading-relaxed text-brand-100">
-              Cuci AC, perbaikan, pemasangan unit baru, sampai penjualan AC resmi
-              bergaransi. Harga kami tercantum terbuka, dikerjakan teknisi
-              berpengalaman.
+            <p className="mt-5 max-w-xl text-lg leading-relaxed text-ink-300">
+              Cuci AC, perbaikan, pemasangan unit baru, sampai penjualan AC
+              resmi bergaransi. Harga kami tercantum terbuka, dikerjakan
+              teknisi berpengalaman.
             </p>
 
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               {hasWhatsApp ? (
-                <ExternalButtonLink href={generalEnquiry()} variant="whatsapp" size="lg">
+                <ExternalButtonLink href={generalEnquiry()} variant="invert" size="lg">
                   <WhatsAppIcon className="h-5 w-5" />
-                  Pesan via WhatsApp
+                  Chat WhatsApp
                 </ExternalButtonLink>
               ) : (
-                <ButtonLink href="/kontak" size="lg">
+                <ButtonLink href="/kontak" variant="invert" size="lg">
                   Hubungi kami
                 </ButtonLink>
               )}
-              <ButtonLink
-                href="/produk"
-                size="lg"
-                className="border border-white/30 bg-white/10 text-white hover:bg-white/20"
-              >
+              <ButtonLink href="/produk" variant="outline-invert" size="lg">
                 Lihat katalog produk
               </ButtonLink>
             </div>
 
-            <p className="mt-6 text-sm text-brand-200">
-              Melayani {SITE.serviceAreas.slice(0, 4).join(", ")}, dan sekitarnya
-            </p>
+            <div className="mt-10 flex flex-wrap gap-x-10 gap-y-4 border-t border-white/10 pt-6">
+              <Stat value={`${yearsActive}+`} label="Tahun beroperasi" />
+              <Stat value={String(SITE.brands.length)} label="Brand resmi" />
+              <Stat value={`${SITE.serviceAreas.length}+`} label="Area layanan" />
+            </div>
           </div>
 
-          <div className="relative hidden lg:block">
-            <div className="relative aspect-[4/3] overflow-hidden rounded-card bg-gradient-to-br from-brand-700 to-brand-800 ring-1 ring-inset ring-white/20">
-              <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 text-center">
-                <AirConditionerGlyph className="h-28 w-28 text-brand-300" />
-                <p className="max-w-xs px-6 text-sm text-brand-200">
-                  Foto pemasangan atau showroom Abtekindo
-                </p>
-              </div>
-            </div>
+          <div className="animate-reveal relative" style={{ animationDelay: "200ms" }}>
+            <Scribble
+              variant="cross"
+              className="-right-2 -top-2 h-8 w-8 opacity-40"
+              tone="gold"
+            />
+            <Scribble variant="compass" className="-bottom-3 -left-3 h-9 w-9 opacity-35" />
+            <HeroCarousel />
           </div>
         </div>
       </Container>
     </section>
+  );
+}
+
+function Stat({ value, label }: { value: string; label: string }) {
+  return (
+    <div>
+      <div className="font-display text-2xl font-semibold text-white">{value}</div>
+      <div className="text-xs text-ink-400">{label}</div>
+    </div>
   );
 }

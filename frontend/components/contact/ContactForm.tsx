@@ -224,7 +224,7 @@ export function ContactForm({
           minLength={10}
           maxLength={2000}
           placeholder="Ceritakan kebutuhan Anda: jenis layanan atau produk, jumlah unit, dan lokasi."
-          className="mt-1.5 w-full rounded-lg border border-ink-300 px-3.5 py-2.5 text-base text-ink-900 placeholder:text-ink-400 focus:border-brand-500 focus:ring-1 focus:ring-brand-500"
+          className="mt-1.5 w-full rounded-[2px] border border-ink-300 px-3.5 py-2.5 text-base text-ink-900 placeholder:text-ink-400 focus:border-brand-500 focus:ring-1 focus:ring-brand-500"
         />
       </div>
 
@@ -237,7 +237,7 @@ export function ContactForm({
 
       {status.state === "error" ? (
         <p
-          className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800"
+          className="rounded-[2px] border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800"
           role="alert"
         >
           {status.message}
@@ -280,7 +280,7 @@ function Field({
         name={name}
         required={required}
         aria-describedby={hintId}
-        className="mt-1.5 w-full rounded-lg border border-ink-300 px-3.5 py-2.5 text-base text-ink-900 placeholder:text-ink-400 focus:border-brand-500 focus:ring-1 focus:ring-brand-500"
+        className="mt-1.5 w-full rounded-[2px] border border-ink-300 px-3.5 py-2.5 text-base text-ink-900 placeholder:text-ink-400 focus:border-brand-500 focus:ring-1 focus:ring-brand-500"
         {...props}
       />
       {hint ? (

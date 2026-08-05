@@ -41,7 +41,7 @@ export function Section({
   } as const;
 
   return (
-    <section id={id} className={cn("py-14 sm:py-20", tones[tone], className)}>
+    <section id={id} className={cn("py-12 sm:py-16", tones[tone], className)}>
       <Container>{children}</Container>
     </section>
   );

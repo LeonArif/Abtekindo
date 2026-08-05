@@ -5,11 +5,13 @@ import { SITE } from "@/lib/site";
 import { Hero } from "@/components/home/Hero";
 import { ValueProps } from "@/components/home/ValueProps";
 import { Faq } from "@/components/home/Faq";
+import { Reveal } from "@/components/ui/Reveal";
 import {
   BrandStrip,
   CtaBand,
   FeaturedProducts,
   HowToOrder,
+  PriceHighlights,
   ServiceHighlights,
 } from "@/components/home/Sections";
 
@@ -38,13 +40,30 @@ export default async function HomePage() {
   return (
     <>
       <Hero />
-      <ValueProps />
-      <ServiceHighlights services={services} />
-      <BrandStrip />
-      <FeaturedProducts products={featured} />
-      <HowToOrder />
-      <Faq />
-      <CtaBand />
+      <Reveal delay={80}>
+        <PriceHighlights products={featured} />
+      </Reveal>
+      <Reveal delay={160}>
+        <ValueProps />
+      </Reveal>
+      <Reveal delay={240}>
+        <ServiceHighlights services={services} />
+      </Reveal>
+      <Reveal delay={320}>
+        <BrandStrip />
+      </Reveal>
+      <Reveal delay={400}>
+        <FeaturedProducts products={featured} />
+      </Reveal>
+      <Reveal delay={480}>
+        <HowToOrder />
+      </Reveal>
+      <Reveal delay={560}>
+        <Faq />
+      </Reveal>
+      <Reveal delay={640}>
+        <CtaBand />
+      </Reveal>
     </>
   );
 }

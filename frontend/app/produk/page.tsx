@@ -9,6 +9,8 @@ import { ProductGrid } from "@/components/product/ProductCard";
 import { ProductFilters } from "@/components/product/ProductFilters";
 import { Container } from "@/components/ui/Container";
 import { ButtonLink } from "@/components/ui/Button";
+import { Badge } from "@/components/ui/Badge";
+import { Scribble } from "@/components/ui/Scribble";
 import { BreadcrumbJsonLd } from "@/components/seo/JsonLd";
 
 export const metadata: Metadata = {
@@ -64,27 +66,37 @@ export default async function ProductsPage(props: PageProps<"/produk">) {
         ]}
       />
 
-      <div className="border-b border-ink-200 bg-ink-50">
+      <div className="relative overflow-hidden bg-brand-900 text-white">
+        <Scribble variant="cross" className="right-[10%] top-8 h-16 w-16 opacity-30" />
+        <Scribble variant="compass" className="right-[22%] bottom-10 h-10 w-10 opacity-20" />
         <Container>
-          <div className="py-10 sm:py-14">
-            <nav aria-label="Remah roti" className="text-sm text-ink-500">
+          <div className="relative flex min-h-[19rem] flex-col justify-center py-10 sm:min-h-[24rem] sm:py-14">
+            <nav aria-label="Remah roti" className="text-sm text-ink-400">
               <ol className="flex items-center gap-2">
                 <li>
-                  <Link href="/" className="hover:text-brand-600">
+                  <Link href="/" className="hover:text-white">
                     Beranda
                   </Link>
                 </li>
                 <li aria-hidden="true">/</li>
-                <li className="font-medium text-ink-700">Produk</li>
+                <li className="font-medium text-white">Produk</li>
               </ol>
             </nav>
-            <h1 className="mt-3 text-3xl font-bold tracking-tight text-ink-900 sm:text-4xl">
-              Katalog Produk AC
-            </h1>
-            <p className="mt-3 max-w-2xl text-base text-ink-600 sm:text-lg">
+            <div className="mt-3 flex flex-wrap items-center gap-3">
+              <h1 className="text-3xl sm:text-4xl">Katalog Produk AC</h1>
+              {pagination.total > 0 ? (
+                <Badge tone="brand" className="text-sm">
+                  {pagination.total} produk tersedia
+                </Badge>
+              ) : null}
+            </div>
+            <p className="mt-3 max-w-2xl text-base text-ink-300 sm:text-lg">
               Kami menyediakan AC {SITE.brands.map((b) => b.name).join(", ")} untuk
-              kebutuhan rumah, kantor, dan tempat usaha. Harga yang tercantum
-              adalah harga mulai; hubungi kami untuk penawaran terbaik.
+              kebutuhan rumah, kantor, dan tempat usaha.{" "}
+              <span className="font-semibold text-white">
+                Harga yang tercantum adalah harga mulai
+              </span>
+              , hubungi kami untuk penawaran terbaik.
             </p>
           </div>
         </Container>
@@ -189,7 +201,7 @@ function Pagination({
         <Link
           href={hrefFor(page - 1)}
           rel="prev"
-          className="inline-flex min-h-11 items-center rounded-lg border border-ink-300 px-4 text-sm font-medium text-ink-700 hover:bg-ink-50"
+          className="inline-flex min-h-11 items-center rounded-[2px] border border-ink-300 px-4 text-sm font-medium text-ink-700 hover:bg-ink-50"
         >
           Sebelumnya
         </Link>
@@ -203,8 +215,8 @@ function Pagination({
               aria-current={p === page ? "page" : undefined}
               className={
                 p === page
-                  ? "inline-flex h-11 min-w-11 items-center justify-center rounded-lg bg-brand-600 px-3 text-sm font-semibold text-white"
-                  : "inline-flex h-11 min-w-11 items-center justify-center rounded-lg px-3 text-sm font-medium text-ink-700 hover:bg-ink-100"
+                  ? "inline-flex h-11 min-w-11 items-center justify-center rounded-[2px] bg-brand-600 px-3 text-sm font-semibold text-white"
+                  : "inline-flex h-11 min-w-11 items-center justify-center rounded-[2px] px-3 text-sm font-medium text-ink-700 hover:bg-ink-100"
               }
             >
               {p}
@@ -217,7 +229,7 @@ function Pagination({
         <Link
           href={hrefFor(page + 1)}
           rel="next"
-          className="inline-flex min-h-11 items-center rounded-lg border border-ink-300 px-4 text-sm font-medium text-ink-700 hover:bg-ink-50"
+          className="inline-flex min-h-11 items-center rounded-[2px] border border-ink-300 px-4 text-sm font-medium text-ink-700 hover:bg-ink-50"
         >
           Berikutnya
         </Link>

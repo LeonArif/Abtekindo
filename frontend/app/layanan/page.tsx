@@ -6,6 +6,7 @@ import { SITE, hasWhatsApp } from "@/lib/site";
 import { generalEnquiry } from "@/lib/whatsapp";
 import { Container, Section, SectionHeading } from "@/components/ui/Container";
 import { ButtonLink, ExternalButtonLink } from "@/components/ui/Button";
+import { Scribble } from "@/components/ui/Scribble";
 import { ServiceDetail } from "@/components/service/ServiceCard";
 import { WhatsAppIcon } from "@/components/layout/MobileNav";
 import { BreadcrumbJsonLd, ServiceJsonLd } from "@/components/seo/JsonLd";
@@ -48,24 +49,24 @@ export default async function ServicesPage() {
         <ServiceJsonLd key={service.id} service={service} />
       ))}
 
-      <div className="border-b border-ink-200 bg-ink-50">
+      <div className="relative overflow-hidden bg-brand-900 text-white">
+        <Scribble variant="compass" className="right-[8%] top-4 h-16 w-16 opacity-30" />
+        <Scribble variant="cross" className="right-[24%] bottom-6 h-9 w-9 opacity-20" />
         <Container>
-          <div className="py-10 sm:py-14">
-            <nav aria-label="Remah roti" className="text-sm text-ink-500">
+          <div className="relative flex min-h-[19rem] flex-col justify-center py-10 sm:min-h-[24rem] sm:py-14">
+            <nav aria-label="Remah roti" className="text-sm text-ink-400">
               <ol className="flex items-center gap-2">
                 <li>
-                  <Link href="/" className="hover:text-brand-600">
+                  <Link href="/" className="hover:text-white">
                     Beranda
                   </Link>
                 </li>
                 <li aria-hidden="true">/</li>
-                <li className="font-medium text-ink-700">Layanan</li>
+                <li className="font-medium text-white">Layanan</li>
               </ol>
             </nav>
-            <h1 className="mt-3 text-3xl font-bold tracking-tight text-ink-900 sm:text-4xl">
-              Layanan dan Daftar Harga
-            </h1>
-            <p className="mt-3 max-w-2xl text-base text-ink-600 sm:text-lg">
+            <h1 className="mt-3 text-3xl sm:text-4xl">Layanan dan Daftar Harga</h1>
+            <p className="mt-3 max-w-2xl text-base text-ink-300 sm:text-lg">
               Kami mencantumkan harga secara terbuka supaya Anda bisa
               memperkirakan biaya sebelum menghubungi kami. Harga di bawah adalah
               harga mulai per unit.
@@ -77,7 +78,7 @@ export default async function ServicesPage() {
                   <li key={service.id}>
                     <a
                       href={`#${service.slug}`}
-                      className="inline-flex min-h-11 items-center rounded-full border border-ink-300 bg-white px-4 text-sm font-medium text-ink-700 hover:border-brand-400 hover:text-brand-700"
+                      className="inline-flex min-h-11 items-center rounded-[2px] border border-ink-300 bg-white px-4 text-sm font-medium text-ink-700 hover:border-brand-400 hover:text-brand-700"
                     >
                       {service.name}
                     </a>
@@ -110,13 +111,13 @@ export default async function ServicesPage() {
           title="Tiga langkah, tanpa ribet"
           description="Dari pesan pertama sampai teknisi datang, prosesnya sederhana dan jelas."
         />
-        <ol className="mx-auto mt-10 grid max-w-4xl gap-6 sm:grid-cols-3">
+        <ol className="mx-auto mt-10 grid max-w-4xl gap-px overflow-hidden border border-ink-900 bg-ink-900 sm:grid-cols-3">
           {STEPS.map((step, index) => (
-            <li key={step.title} className="rounded-card bg-white p-6">
-              <span className="flex h-10 w-10 items-center justify-center rounded-full bg-brand-600 text-base font-bold text-white">
-                {index + 1}
+            <li key={step.title} className="bg-white p-6">
+              <span className="font-display text-sm font-semibold text-brand-600">
+                0{index + 1}
               </span>
-              <h3 className="mt-4 text-base font-semibold text-ink-900">
+              <h3 className="mt-2 text-base font-semibold text-ink-900">
                 {step.title}
               </h3>
               <p className="mt-2 text-sm leading-relaxed text-ink-600">
@@ -127,23 +128,22 @@ export default async function ServicesPage() {
         </ol>
       </Section>
 
-      <Section tone="brand">
-        <div className="mx-auto max-w-3xl text-center">
-          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
-            Butuh penanganan hari ini?
-          </h2>
-          <p className="mt-4 text-lg text-brand-100">
+      <Section tone="brand" className="relative overflow-hidden">
+        <Scribble variant="compass" className="left-10 bottom-6 h-16 w-16 opacity-40" />
+        <div className="relative mx-auto max-w-3xl text-center">
+          <h2 className="text-3xl sm:text-4xl">Butuh penanganan hari ini?</h2>
+          <p className="mt-4 text-lg text-ink-300">
             Kami melayani {SITE.serviceAreas.slice(0, 4).join(", ")}, dan
             sekitarnya. Hubungi kami untuk ketersediaan jadwal hari ini.
           </p>
           <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
             {hasWhatsApp ? (
-              <ExternalButtonLink href={generalEnquiry()} variant="whatsapp" size="lg">
+              <ExternalButtonLink href={generalEnquiry()} variant="invert" size="lg">
                 <WhatsAppIcon className="h-5 w-5" />
                 Chat WhatsApp
               </ExternalButtonLink>
             ) : null}
-            <ButtonLink href="/kontak" variant="outline" size="lg">
+            <ButtonLink href="/kontak" variant="outline-invert" size="lg">
               Kirim pesan
             </ButtonLink>
           </div>

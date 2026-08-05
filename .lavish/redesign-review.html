@@ -1,0 +1,342 @@
+<title>Abtekindo Redesign Review</title>
+<meta name="description" content="Cold Front redesign of the Abtekindo site, page by page, for annotation and feedback.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Karla:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --brand-50: oklch(97% 0.012 235);
+    --brand-100: oklch(94% 0.028 235);
+    --brand-200: oklch(90% 0.045 235);
+    --brand-300: oklch(82% 0.06 235);
+    --brand-500: oklch(64% 0.1 235);
+    --brand-600: oklch(54% 0.1 235);
+    --brand-700: oklch(45% 0.1 235);
+    --gold-200: oklch(88% 0.09 95);
+    --gold-300: oklch(80% 0.09 95);
+    --ink-50: #fbfaf7;
+    --ink-100: #f4f2ec;
+    --ink-200: #eceae3;
+    --ink-400: #a5a394;
+    --ink-500: #8a8878;
+    --ink-600: #57564c;
+    --ink-700: #3a382f;
+    --ink-900: #111110;
+    --page-bg: #e9e7e1;
+    --font-display: "Oswald", ui-sans-serif, system-ui, sans-serif;
+    --font-sans: "Karla", ui-sans-serif, system-ui, sans-serif;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body {
+    background: var(--page-bg);
+    color: var(--ink-700);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 600; letter-spacing: -0.01em; color: var(--ink-900); margin: 0; }
+  p { margin: 0; }
+  img { max-width: 100%; height: auto; display: block; }
+
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 0 24px; }
+
+  /* Intro band, echoing the site's own dark CTA bands */
+  .intro {
+    background: var(--ink-900);
+    color: #fff;
+    padding: 56px 0 40px;
+    position: relative;
+    overflow: hidden;
+  }
+  .intro::before {
+    content: "";
+    position: absolute;
+    top: -30px;
+    right: 40px;
+    width: 140px;
+    height: 140px;
+    opacity: 0.15;
+    background:
+      linear-gradient(var(--brand-300), var(--brand-300)) center / 2px 100% no-repeat,
+      linear-gradient(90deg, var(--brand-300), var(--brand-300)) center / 100% 2px no-repeat;
+  }
+  .eyebrow {
+    font-family: var(--font-sans);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--brand-300);
+  }
+  .intro h1 { color: #fff; font-size: clamp(32px, 4vw, 46px); margin-top: 10px; max-width: 720px; }
+  .intro p.lede { margin-top: 14px; max-width: 640px; font-size: 17px; line-height: 1.6; color: var(--ink-400); }
+
+  .stats { display: flex; gap: 40px; margin-top: 28px; flex-wrap: wrap; }
+  .stat .v { font-family: var(--font-display); font-size: 26px; font-weight: 600; color: #fff; }
+  .stat .l { font-size: 12px; color: var(--ink-400); margin-top: 2px; }
+
+  .howto {
+    margin-top: 30px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.12);
+    max-width: 760px;
+  }
+  .howto > div { background: rgba(255,255,255,0.03); padding: 16px 18px; min-width: 0; }
+  .howto .n { font-family: var(--font-display); font-size: 13px; font-weight: 600; color: var(--brand-300); }
+  .howto .t { font-size: 14px; font-weight: 700; color: #fff; margin-top: 4px; }
+  .howto .b { font-size: 12.5px; color: var(--ink-400); margin-top: 4px; line-height: 1.5; }
+
+  main { padding: 40px 0 80px; }
+
+  .section {
+    background: #fff;
+    border: 1px solid var(--ink-200);
+    margin-bottom: 28px;
+    overflow: hidden;
+  }
+  .section-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--ink-200);
+    background: var(--ink-50);
+  }
+  .section-head .titles { min-width: 0; }
+  .section-head h2 { font-size: 20px; }
+  .section-head .path {
+    font-family: ui-monospace, "SFMono-Regular", Menlo, monospace;
+    font-size: 12px;
+    color: var(--ink-500);
+    margin-top: 4px;
+  }
+  .tag {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    padding: 5px 10px;
+    border: 1px solid currentColor;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .tag.aesthetic { color: var(--brand-700); }
+  .tag.ux { color: var(--ink-600); }
+
+  .shot { border-bottom: 1px solid var(--ink-200); background: var(--ink-100); }
+  .shot img { width: 100%; }
+
+  .notes { padding: 18px 24px 22px; }
+  .notes ul { margin: 0; padding-left: 18px; }
+  .notes li { font-size: 14px; line-height: 1.6; color: var(--ink-700); margin-bottom: 6px; }
+  .notes li:last-child { margin-bottom: 0; }
+  .notes li b { color: var(--ink-900); }
+
+  .legend {
+    display: flex;
+    gap: 22px;
+    flex-wrap: wrap;
+    align-items: center;
+    font-size: 13px;
+    color: var(--ink-600);
+    margin-top: 26px;
+  }
+  .legend .dot { display: inline-flex; align-items: center; gap: 8px; }
+  .legend .sw { width: 10px; height: 10px; display: inline-block; }
+
+  .howto-fix {
+    background: var(--gold-200);
+    border: 1px solid var(--ink-200);
+    padding: 18px 24px;
+    margin-bottom: 28px;
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--ink-700);
+  }
+  .howto-fix b { color: var(--ink-900); }
+
+  @media (max-width: 720px) {
+    .howto { grid-template-columns: 1fr; }
+    .stats { gap: 24px; }
+  }
+</style>
+
+<div class="intro">
+  <div class="wrap">
+    <span class="eyebrow">Cold Front redesign &middot; review copy</span>
+    <h1>Abtekindo site, page by page</h1>
+    <p class="lede">
+      Every public page was retheme'd from scratch on the new design brief: warm cream/graphite
+      neutrals, one pastel-blue accent, sharp 2px corners, Oswald for headings and prices, Karla
+      for body copy. Select anything below &mdash; a screenshot region, a note, or a whole
+      section &mdash; and queue it as feedback so it comes straight back to the agent.
+    </p>
+    <div class="stats">
+      <div class="stat"><div class="v">7</div><div class="l">pages redesigned</div></div>
+      <div class="stat"><div class="v">3</div><div class="l">bugs caught &amp; fixed</div></div>
+      <div class="stat"><div class="v">0</div><div class="l">tsc / lint errors</div></div>
+    </div>
+    <div class="howto">
+      <div>
+        <div class="n">01</div>
+        <div class="t">Select something</div>
+        <div class="b">Click a screenshot region or highlight a note below.</div>
+      </div>
+      <div>
+        <div class="n">02</div>
+        <div class="t">Say what's wrong</div>
+        <div class="b">Type the issue in the annotation box that appears.</div>
+      </div>
+      <div>
+        <div class="n">03</div>
+        <div class="t">Queue &amp; send</div>
+        <div class="b">Queue it, repeat for other issues, then send &mdash; it comes back to the agent.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<main class="wrap">
+
+  <div class="howto-fix">
+    <b>This is a review surface, not a mock.</b> Every screenshot is a live capture of the actual
+    running site at <code>localhost:3000</code>. If something looks wrong here, it's wrong on the
+    real page too &mdash; point at it and it gets fixed there.
+  </div>
+
+  <div class="section">
+    <div class="section-head">
+      <div class="titles">
+        <h2>Homepage &mdash; hero</h2>
+        <div class="path">app/page.tsx &middot; components/home/Hero.tsx, HeroCarousel.tsx</div>
+      </div>
+      <span class="tag aesthetic">Aesthetic-led</span>
+    </div>
+    <div class="shot"><img src="assets/home-hero.jpg" alt="Homepage hero with image carousel, quick facts row, and price ticker band"></div>
+    <div class="notes">
+      <ul>
+        <li>Carousel arrows are <b>always visible</b> (not hover-only) since most traffic here is mobile/touch.</li>
+        <li>Stat row only shows numbers the codebase can back: years active, brand count, service-area count &mdash; nothing invented.</li>
+        <li>Removed the floating price/trust cards that used to sit on top of the hero photo, per the brief.</li>
+        <li><b>Fixed:</b> the decorative snowflake scribble that was overlapping the eyebrow text has been removed.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head">
+      <div class="titles">
+        <h2>Homepage &mdash; services &amp; products</h2>
+        <div class="path">components/home/Sections.tsx</div>
+      </div>
+      <span class="tag aesthetic">Aesthetic-led</span>
+    </div>
+    <div class="shot"><img src="assets/home-products.jpg" alt="Homepage service cards and featured product cards with prices in tinted boxes"></div>
+    <div class="notes">
+      <ul>
+        <li>Prices sit in their own tinted box on every card so they read as the headline fact, not a footnote.</li>
+        <li>Icon tiles alternate blue/gold so the section doesn't read as monochrome-plus-blue.</li>
+        <li><b>Fixed:</b> "Produk pilihan" heading is centered again, matching every other section &mdash; it had drifted left-aligned.</li>
+        <li><b>Fixed:</b> product cards with shorter content (e.g. "Gree Lomo") were shrinking narrower than their neighbors &mdash; a missing <code>w-full</code> on the card link inside its flex grid cell. Same bug existed on service cards; fixed both.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head">
+      <div class="titles">
+        <h2>Product catalog</h2>
+        <div class="path">app/produk/page.tsx &middot; components/product/ProductCard.tsx</div>
+      </div>
+      <span class="tag ux">UX-led</span>
+    </div>
+    <div class="shot"><img src="assets/produk-listing.jpg" alt="Product catalog listing page with filters sidebar and product grid"></div>
+    <div class="notes">
+      <ul>
+        <li>Filters, grid and pagination are functionally untouched &mdash; only the visual language changed.</li>
+        <li>Live "20 produk tersedia" badge next to the title, not a static claim.</li>
+        <li><b>Changed:</b> header band is now the same black hero treatment as About/Layanan/Contact, with scattered scribbles and matched height.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head">
+      <div class="titles">
+        <h2>Product detail</h2>
+        <div class="path">app/produk/[slug]/page.tsx</div>
+      </div>
+      <span class="tag ux">UX-led</span>
+    </div>
+    <div class="shot"><img src="assets/produk-detail.jpg" alt="Product detail page with a highlighted price box and Harga terbaik badge"></div>
+    <div class="notes">
+      <ul>
+        <li>Price box promoted to a bordered, tinted card with a "Harga terbaik" badge &mdash; it's now unmistakably the page's focal point.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head">
+      <div class="titles">
+        <h2>Services &amp; price list</h2>
+        <div class="path">app/layanan/page.tsx &middot; components/service/ServiceCard.tsx</div>
+      </div>
+      <span class="tag ux">UX-led</span>
+    </div>
+    <div class="shot"><img src="assets/layanan.jpg" alt="Services page with anchor pills and a price table"></div>
+    <div class="notes">
+      <ul>
+        <li>Rate-table prices set in the display face (Oswald) so they scan faster down the column.</li>
+        <li><b>Changed:</b> header band now matches the same black hero treatment and height as the other pages.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head">
+      <div class="titles">
+        <h2>About</h2>
+        <div class="path">app/tentang-kami/page.tsx</div>
+      </div>
+      <span class="tag aesthetic">Aesthetic-led</span>
+    </div>
+    <div class="shot"><img src="assets/tentang-kami.jpg" alt="About page with dark intro band and diamond/wave scribble decoration"></div>
+    <div class="notes">
+      <ul>
+        <li>The one page the brief said to make purely aesthetic &mdash; dark intro band, hero-style diagonal photo panel, scribble motifs.</li>
+        <li><b>Changed:</b> a couple more scribbles scattered across the intro band and the area-coverage section, kept clear of all text.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head">
+      <div class="titles">
+        <h2>Contact</h2>
+        <div class="path">app/kontak/page.tsx &middot; components/contact/ContactForm.tsx</div>
+      </div>
+      <span class="tag ux">UX + aesthetic</span>
+    </div>
+    <div class="shot"><img src="assets/kontak.jpg" alt="Contact page with info cards and a form card with a brand-colored top border"></div>
+    <div class="notes">
+      <ul>
+        <li>Real WhatsApp number (+6285100723299) and address (Jl. Jatinegara Barat 4) now live throughout.</li>
+        <li>Form card got a brand-colored top-border accent to match the signature look used on About's value cards.</li>
+        <li><b>Changed:</b> header band now black to match every other page, height matched, and scribbles added there plus around the info/form area and the coverage section.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="legend">
+    <span class="dot"><span class="sw" style="background: var(--brand-500)"></span>Aesthetic-led page</span>
+    <span class="dot"><span class="sw" style="background: var(--ink-500)"></span>UX-led page</span>
+    <span class="dot"><span class="sw" style="background: var(--gold-300)"></span>Note / caveat</span>
+  </div>
+
+</main>

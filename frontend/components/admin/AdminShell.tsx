@@ -4,8 +4,8 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, type ReactNode } from "react";
 
-import { SITE } from "@/lib/site";
 import { cn } from "@/lib/cn";
+import { Logo } from "@/components/layout/Logo";
 import { useAuth } from "./AuthProvider";
 
 const ADMIN_NAV = [
@@ -59,62 +59,51 @@ export function AdminShell({ children }: { children: ReactNode }) {
   return (
     <div className="min-h-screen bg-ink-50">
       <header className="border-b border-ink-200 bg-white">
-        <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3 px-4 py-3 sm:px-6 lg:px-8">
-          <div className="flex items-center gap-3">
-            <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-brand-600 text-sm font-bold text-white">
-              A
-            </span>
-            <div>
-              <p className="text-sm font-bold text-ink-900">Panel Admin</p>
-              <p className="text-xs text-ink-500">{SITE.legalName}</p>
-            </div>
-          </div>
+        <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8">
+          <Logo />
 
-          <div className="flex items-center gap-3">
+          <nav aria-label="Navigasi admin">
+            <ul className="flex items-center gap-1">
+              {ADMIN_NAV.map((item) => {
+                const active = item.exact
+                  ? pathname === item.href
+                  : pathname.startsWith(item.href);
+                return (
+                  <li key={item.href}>
+                    <Link
+                      href={item.href}
+                      aria-current={active ? "page" : undefined}
+                      className={cn(
+                        "inline-flex min-h-11 items-center whitespace-nowrap px-3.5 text-sm font-medium transition-colors",
+                        active
+                          ? "border-b-2 border-ink-900 text-ink-900"
+                          : "border-b-2 border-transparent text-ink-600 hover:text-ink-900",
+                      )}
+                    >
+                      {item.label}
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
+          </nav>
+
+          <div className="flex items-center gap-2">
             <Link
               href="/"
-              className="inline-flex min-h-11 items-center rounded-lg px-3 text-sm font-medium text-ink-600 hover:bg-ink-100"
+              className="inline-flex min-h-11 items-center rounded-[2px] px-3 text-sm font-medium text-ink-600 hover:bg-ink-100"
             >
               Lihat situs
             </Link>
-            <span className="hidden text-sm text-ink-500 sm:inline">
-              {state.user.name}
-            </span>
             <button
               type="button"
               onClick={() => void signOut()}
-              className="inline-flex min-h-11 items-center rounded-lg border border-ink-300 px-3.5 text-sm font-medium text-ink-700 hover:bg-ink-100"
+              className="inline-flex min-h-11 items-center rounded-[2px] border border-ink-300 px-3.5 text-sm font-medium text-ink-700 hover:bg-ink-100"
             >
               Keluar
             </button>
           </div>
         </div>
-
-        <nav className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8" aria-label="Navigasi admin">
-          <ul className="flex gap-1 overflow-x-auto">
-            {ADMIN_NAV.map((item) => {
-              const active = item.exact
-                ? pathname === item.href
-                : pathname.startsWith(item.href);
-              return (
-                <li key={item.href}>
-                  <Link
-                    href={item.href}
-                    aria-current={active ? "page" : undefined}
-                    className={cn(
-                      "inline-flex min-h-12 items-center whitespace-nowrap border-b-2 px-4 text-sm font-medium",
-                      active
-                        ? "border-brand-600 text-brand-700"
-                        : "border-transparent text-ink-600 hover:text-ink-900",
-                    )}
-                  >
-                    {item.label}
-                  </Link>
-                </li>
-              );
-            })}
-          </ul>
-        </nav>
       </header>
 
       <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">{children}</main>

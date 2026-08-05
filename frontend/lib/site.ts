@@ -29,18 +29,16 @@ export const SITE = {
    * This is the single most important value on the site: every call to action
    * routes through it.
    */
-  // TODO: ganti dengan nomor WhatsApp resmi, contoh format: 6281234567890
-  whatsapp: "628XXXXXXXXXX",
+  whatsapp: "6285100723299",
 
   // TODO: ganti dengan nomor telepon kantor
   phone: "(021) XXXX-XXXX",
 
-  // TODO: ganti dengan email resmi perusahaan
-  email: "info@abtekindo.co.id",
+  email: "abtekindo89@gmail.com",
 
   address: {
-    // TODO: ganti dengan alamat kantor atau showroom yang sebenarnya
-    street: "Jl. Contoh Alamat No. XX",
+    street: "Jl. Jatinegara Barat 4",
+    // TODO: lengkapi kecamatan, kota, provinsi, dan kode pos yang sebenarnya
     district: "Kecamatan",
     city: "Jakarta",
     province: "DKI Jakarta",
@@ -79,13 +77,14 @@ export const SITE = {
     "Depok",
   ],
 
-  /** Social profiles. Leave a value empty to hide that link. */
+  /** Social and marketplace profiles. Leave a value empty to hide that link. */
   social: {
-    // TODO: isi jika perusahaan memiliki akun media sosial
+    // TODO: isi akun Instagram resmi perusahaan
     instagram: "",
     facebook: "",
-    tiktok: "",
+    tiktok: "https://www.tiktok.com/@abtekindo",
     youtube: "",
+    tokopedia: "https://www.tokopedia.com/abtekind",
   },
 
   /** Brands the company distributes. Order controls display order. */
@@ -116,7 +115,7 @@ export function formatAddress(): string {
 
 /** Main navigation, in display order. */
 export const NAV_LINKS = [
-  { href: "/", label: "Beranda" },
+  { href: "/", label: "Home" },
   { href: "/produk", label: "Produk" },
   { href: "/layanan", label: "Layanan" },
   { href: "/tentang-kami", label: "Tentang Kami" },

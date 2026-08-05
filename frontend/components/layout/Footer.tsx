@@ -33,7 +33,7 @@ export function Footer() {
                 href={generalEnquiry()}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-5 inline-flex min-h-11 items-center gap-2 rounded-lg bg-whatsapp px-4 text-sm font-semibold text-white hover:bg-whatsapp-dark"
+                className="mt-5 inline-flex min-h-11 items-center gap-2 rounded-[2px] bg-white px-4 text-sm font-semibold text-ink-900 hover:bg-ink-100"
               >
                 <WhatsAppIcon className="h-4 w-4" />
                 Chat WhatsApp
@@ -123,10 +123,10 @@ export function Footer() {
                       href={url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex h-11 w-11 items-center justify-center rounded-lg bg-ink-800 capitalize hover:bg-ink-700 hover:text-white"
+                      className="inline-flex h-11 w-11 items-center justify-center rounded-[2px] bg-ink-800 hover:bg-ink-700 hover:text-white"
                       aria-label={name}
                     >
-                      {name.charAt(0).toUpperCase()}
+                      <SocialIcon name={name} className="h-4 w-4" />
                     </a>
                   </li>
                 ))}
@@ -136,14 +136,68 @@ export function Footer() {
         </div>
 
         <div className="mt-12 flex flex-col gap-3 border-t border-ink-800 pt-6 text-sm sm:flex-row sm:items-center sm:justify-between">
-          <p>
-            &copy; {year} {SITE.legalName}. Seluruh hak cipta dilindungi.
-          </p>
-          <p className="text-ink-400">
+          {/* <p className="text-ink-400">
             Distributor {SITE.brands.map((b) => b.name).join(", ")}
+          </p> */}
+            <p>
+            &copy; {year} {SITE.legalName}. Seluruh hak cipta dilindungi.
           </p>
         </div>
       </div>
     </footer>
   );
+}
+
+const iconProps = {
+  viewBox: "0 0 24 24",
+  fill: "none",
+  stroke: "currentColor",
+  strokeWidth: 1.8,
+  strokeLinecap: "round" as const,
+  strokeLinejoin: "round" as const,
+  "aria-hidden": true,
+};
+
+/** Small monoline glyph per social/marketplace platform, falling back to the
+ * platform's initial for anything not explicitly drawn. */
+function SocialIcon({ name, className }: { name: string; className?: string }) {
+  switch (name) {
+    case "instagram":
+      return (
+        <svg {...iconProps} className={className}>
+          <rect x="3" y="3" width="18" height="18" rx="5" />
+          <circle cx="12" cy="12" r="4" />
+          <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
+        </svg>
+      );
+    case "facebook":
+      return (
+        <svg {...iconProps} className={className}>
+          <path d="M15 3h-2a4 4 0 0 0-4 4v3H6v4h3v7h4v-7h3l1-4h-4V7a1 1 0 0 1 1-1h3V3Z" />
+        </svg>
+      );
+    case "tiktok":
+      return (
+        <svg {...iconProps} className={className}>
+          <path d="M13 3v11.5a2.5 2.5 0 1 1-2.5-2.5" />
+          <path d="M13 3c.3 2 1.9 3.6 4 4v3c-1.5 0-2.9-.5-4-1.3" />
+        </svg>
+      );
+    case "youtube":
+      return (
+        <svg {...iconProps} className={className}>
+          <rect x="2.5" y="6" width="19" height="12" rx="3" />
+          <path d="m10.5 9.5 5 2.5-5 2.5Z" fill="currentColor" stroke="none" />
+        </svg>
+      );
+    case "tokopedia":
+      return (
+        <svg {...iconProps} className={className}>
+          <path d="M4 9h16l-1.5 11h-13L4 9Z" />
+          <path d="M9 9V7a3 3 0 0 1 6 0v2" />
+        </svg>
+      );
+    default:
+      return <span className="text-xs font-semibold uppercase">{name.charAt(0)}</span>;
+  }
 }

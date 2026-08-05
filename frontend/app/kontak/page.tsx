@@ -5,6 +5,7 @@ import { SITE, formatAddress, hasMaps, hasWhatsApp } from "@/lib/site";
 import { generalEnquiry } from "@/lib/whatsapp";
 import { Container, Section, SectionHeading } from "@/components/ui/Container";
 import { ExternalButtonLink } from "@/components/ui/Button";
+import { Scribble } from "@/components/ui/Scribble";
 import { ContactForm } from "@/components/contact/ContactForm";
 import { WhatsAppIcon } from "@/components/layout/MobileNav";
 import { BreadcrumbJsonLd } from "@/components/seo/JsonLd";
@@ -29,24 +30,24 @@ export default function ContactPage() {
         ]}
       />
 
-      <div className="border-b border-ink-200 bg-ink-50">
+      <div className="relative overflow-hidden bg-brand-900 text-white">
+        <Scribble variant="compass" className="right-[26%] bottom-6 h-11 w-11 opacity-20" />
+        <Scribble variant="cross" className="left-[6%] top-10 h-9 w-9 opacity-20" />
         <Container>
-          <div className="py-10 sm:py-14">
-            <nav aria-label="Remah roti" className="text-sm text-ink-500">
+          <div className="relative flex min-h-[19rem] flex-col justify-center py-10 sm:min-h-[24rem] sm:py-14">
+            <nav aria-label="Remah roti" className="text-sm text-ink-400">
               <ol className="flex items-center gap-2">
                 <li>
-                  <Link href="/" className="hover:text-brand-600">
+                  <Link href="/" className="hover:text-white">
                     Beranda
                   </Link>
                 </li>
                 <li aria-hidden="true">/</li>
-                <li className="font-medium text-ink-700">Kontak</li>
+                <li className="font-medium text-white">Kontak</li>
               </ol>
             </nav>
-            <h1 className="mt-3 text-3xl font-bold tracking-tight text-ink-900 sm:text-4xl">
-              Hubungi Kami
-            </h1>
-            <p className="mt-3 max-w-2xl text-base text-ink-600 sm:text-lg">
+            <h1 className="mt-3 text-3xl sm:text-4xl">Hubungi Kami</h1>
+            <p className="mt-3 max-w-2xl text-base text-ink-300 sm:text-lg">
               Untuk respons paling cepat, hubungi kami melalui WhatsApp. Anda
               juga bisa menelepon, mengirim email, atau mengisi form di bawah.
             </p>
@@ -54,8 +55,10 @@ export default function ContactPage() {
         </Container>
       </div>
 
-      <Container>
-        <div className="grid gap-10 py-12 lg:grid-cols-[1fr_1.1fr] lg:gap-16">
+      <div className="relative overflow-hidden">
+        <Scribble variant="cross" className="right-[6%] top-8 h-11 w-11 opacity-40" />
+        <Container>
+        <div className="relative grid gap-10 py-12 lg:grid-cols-[1fr_1.1fr] lg:gap-16">
           <div>
             <h2 className="text-xl font-bold text-ink-900">Informasi kontak</h2>
 
@@ -139,7 +142,7 @@ export default function ContactPage() {
             ) : null}
           </div>
 
-          <div className="rounded-card border border-ink-200 bg-white p-6 sm:p-8">
+          <div className="rounded-card border border-t-2 border-ink-200 border-t-brand-500 bg-white p-6 sm:p-8">
             <h2 className="text-xl font-bold text-ink-900">Kirim pesan</h2>
             <p className="mt-2 text-sm text-ink-600">
               Isi form berikut dan tim kami akan menghubungi Anda kembali pada
@@ -150,7 +153,8 @@ export default function ContactPage() {
             </div>
           </div>
         </div>
-      </Container>
+        </Container>
+      </div>
 
       {hasMaps ? (
         <section aria-labelledby="lokasi" className="border-t border-ink-200">
@@ -167,7 +171,7 @@ export default function ContactPage() {
         </section>
       ) : null}
 
-      <Section tone="muted">
+      <Section tone="muted" className="relative overflow-hidden">
         <SectionHeading
           eyebrow="Jangkauan"
           title="Area yang kami layani"
@@ -177,7 +181,7 @@ export default function ContactPage() {
           {SITE.serviceAreas.map((area) => (
             <li
               key={area}
-              className="rounded-full bg-white px-4 py-2 text-sm font-medium text-ink-700"
+              className="rounded-[2px] bg-white px-4 py-2 text-sm font-medium text-ink-700"
             >
               {area}
             </li>
@@ -204,8 +208,8 @@ function ContactRow({
       <span
         className={
           tone === "whatsapp"
-            ? "flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-whatsapp/10 text-whatsapp-dark"
-            : "flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-brand-50 text-brand-600"
+            ? "flex h-10 w-10 shrink-0 items-center justify-center rounded-[2px] bg-whatsapp/10 text-whatsapp-dark"
+            : "flex h-10 w-10 shrink-0 items-center justify-center rounded-[2px] bg-brand-50 text-brand-600"
         }
         aria-hidden="true"
       >

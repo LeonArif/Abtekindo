@@ -24,7 +24,7 @@ export function ProductCard({
   return (
     <Link
       href={`/produk/${product.slug}`}
-      className="group flex flex-col overflow-hidden rounded-card border border-ink-200 bg-white transition-shadow hover:shadow-lg focus-visible:shadow-lg"
+      className="group flex w-full flex-col overflow-hidden rounded-card border border-ink-200 bg-white transition-shadow hover:shadow-lg focus-visible:shadow-lg"
     >
       <div className="relative">
         <ProductImage
@@ -33,7 +33,7 @@ export function ProductCard({
           priority={priority}
         />
         {product.inverter ? (
-          <span className="absolute left-3 top-3 rounded-full bg-brand-600 px-2.5 py-1 text-xs font-semibold text-white">
+          <span className="absolute left-3 top-3 rounded-[2px] bg-brand-600 px-2.5 py-1 text-xs font-semibold text-white">
             Inverter
           </span>
         ) : null}
@@ -53,12 +53,15 @@ export function ProductCard({
         </div>
 
         {/* mt-auto pins the price to the bottom so prices line up across a row
-            of cards with different title lengths. */}
+            of cards with different title lengths. Given its own tinted box so
+            it reads as the card's headline fact, not a footnote. */}
         <div className="mt-auto pt-4">
-          <p className="text-xs text-ink-500">Mulai dari</p>
-          <p className="text-lg font-bold text-ink-900">
-            {formatRupiah(product.startingPrice)}
-          </p>
+          <div className="rounded-[2px] bg-brand-50 px-3 py-2 transition-colors group-hover:bg-brand-100">
+            <p className="text-[11px] font-medium text-brand-700/70">Mulai dari</p>
+            <p className="font-display text-lg font-semibold text-brand-800">
+              {formatRupiah(product.startingPrice)}
+            </p>
+          </div>
         </div>
       </div>
     </Link>
