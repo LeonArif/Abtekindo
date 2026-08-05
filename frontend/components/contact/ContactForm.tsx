@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import type { LeadSource } from "@/lib/api/types";
 import { Button } from "@/components/ui/Button";
@@ -17,11 +17,13 @@ import { Button } from "@/components/ui/Button";
  * there is one place where lead validation, rate limiting and spam checks live.
  */
 
+type FieldErrors = Record<string, string>;
+
 type Status =
   | { state: "idle" }
   | { state: "submitting" }
   | { state: "success"; message: string }
-  | { state: "error"; message: string };
+  | { state: "error"; message: string | null; fieldErrors: FieldErrors };
 
 // Field labels for turning API validation locations (e.g. "body.message")
 // into the Indonesian labels visitors actually see on the form.
@@ -31,6 +33,10 @@ const FIELD_LABELS: Record<string, string> = {
   email: "Email",
   message: "Pesan",
 };
+
+// Order fields are focused in when several fail validation at once, so focus
+// always lands on whichever field appears first on the page.
+const FIELD_ORDER = ["name", "phone", "email", "message"];
 
 function fieldErrorMessage(location: string, apiMessage: string): string | null {
   const field = location.replace(/^body\./, "");
@@ -57,19 +63,31 @@ function fieldErrorMessage(location: string, apiMessage: string): string | null 
   return `${label} tidak valid.`;
 }
 
-function friendlyErrorMessage(body: {
+function parseApiError(body: {
   detail?: string;
   errors?: { location?: string; message?: string }[] | null;
-}): string {
-  const fieldMessages = (body.errors ?? [])
-    .map((e) => (e.location && e.message ? fieldErrorMessage(e.location, e.message) : null))
-    .filter((m): m is string => m !== null);
+}): { message: string | null; fieldErrors: FieldErrors } {
+  const fieldErrors: FieldErrors = {};
 
-  if (fieldMessages.length > 0) {
-    return fieldMessages.join(" ");
+  for (const e of body.errors ?? []) {
+    if (!e.location || !e.message) continue;
+    const field = e.location.replace(/^body\./, "");
+    if (!FIELD_LABELS[field]) continue;
+    const message = fieldErrorMessage(e.location, e.message);
+    if (message) fieldErrors[field] = message;
   }
 
-  return body.detail ?? "Maaf, pesan gagal dikirim. Silakan coba lagi atau hubungi kami via WhatsApp.";
+  if (Object.keys(fieldErrors).length > 0) {
+    // The invalid fields are each called out inline; no need to repeat them
+    // in a banner too.
+    return { message: null, fieldErrors };
+  }
+
+  return {
+    message:
+      body.detail ?? "Maaf, pesan gagal dikirim. Silakan coba lagi atau hubungi kami via WhatsApp.",
+    fieldErrors,
+  };
 }
 
 export function ContactForm({
@@ -84,6 +102,25 @@ export function ContactForm({
   compact?: boolean;
 }) {
   const [status, setStatus] = useState<Status>({ state: "idle" });
+  const formRef = useRef<HTMLFormElement>(null);
+  const errorBannerRef = useRef<HTMLParagraphElement>(null);
+
+  // Moves focus to the first invalid field, or to the error banner when the
+  // failure isn't tied to a specific field (e.g. a network error), so a
+  // keyboard or screen-reader user lands directly on what needs attention
+  // instead of having to hunt for it. Runs after render so the banner (and
+  // its ref) already exist by the time this fires.
+  useEffect(() => {
+    if (status.state !== "error") return;
+
+    const firstInvalidField = FIELD_ORDER.find((field) => status.fieldErrors[field]);
+    const el = firstInvalidField ? formRef.current?.elements.namedItem(firstInvalidField) : null;
+    if (el instanceof HTMLElement) {
+      el.focus();
+    } else {
+      errorBannerRef.current?.focus();
+    }
+  }, [status]);
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -126,7 +163,8 @@ export function ContactForm({
       };
 
       if (!response.ok) {
-        setStatus({ state: "error", message: friendlyErrorMessage(body) });
+        const { message, fieldErrors } = parseApiError(body);
+        setStatus({ state: "error", message, fieldErrors });
         return;
       }
 
@@ -140,6 +178,7 @@ export function ContactForm({
         state: "error",
         message:
           "Tidak dapat terhubung ke server. Periksa koneksi Anda, atau hubungi kami via WhatsApp.",
+        fieldErrors: {},
       });
     }
   }
@@ -177,9 +216,10 @@ export function ContactForm({
   }
 
   const submitting = status.state === "submitting";
+  const fieldErrors = status.state === "error" ? status.fieldErrors : {};
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4" noValidate>
+    <form ref={formRef} onSubmit={handleSubmit} className="space-y-4" noValidate>
       <div className={compact ? "space-y-4" : "grid gap-4 sm:grid-cols-2"}>
         <Field
           label="Nama"
@@ -189,6 +229,7 @@ export function ContactForm({
           autoComplete="name"
           placeholder="Nama lengkap Anda"
           maxLength={120}
+          error={fieldErrors.name}
         />
         <Field
           label="Nomor WhatsApp"
@@ -199,6 +240,7 @@ export function ContactForm({
           placeholder="0812xxxxxxxx"
           maxLength={30}
           hint="Kami akan menghubungi nomor ini"
+          error={fieldErrors.phone}
         />
       </div>
 
@@ -210,6 +252,7 @@ export function ContactForm({
         placeholder="nama@email.com"
         maxLength={255}
         hint="Opsional"
+        error={fieldErrors.email}
       />
 
       <div>
@@ -224,8 +267,15 @@ export function ContactForm({
           minLength={10}
           maxLength={2000}
           placeholder="Ceritakan kebutuhan Anda: jenis layanan atau produk, jumlah unit, dan lokasi."
-          className="mt-1.5 w-full rounded-lg border border-ink-300 px-3.5 py-2.5 text-base text-ink-900 placeholder:text-ink-400 focus:border-brand-500 focus:ring-1 focus:ring-brand-500"
+          aria-invalid={fieldErrors.message ? true : undefined}
+          aria-describedby={fieldErrors.message ? "message-error" : undefined}
+          className="mt-1.5 w-full rounded-lg border border-ink-300 px-3.5 py-2.5 text-base text-ink-900 placeholder:text-ink-400 focus:border-brand-500 focus:ring-1 focus:ring-brand-500 aria-invalid:border-red-400"
         />
+        {fieldErrors.message ? (
+          <p id="message-error" className="mt-1 text-xs text-red-600">
+            {fieldErrors.message}
+          </p>
+        ) : null}
       </div>
 
       {/* Honeypot. Hidden from assistive technology and keyboard users, so only
@@ -235,9 +285,11 @@ export function ContactForm({
         <input id="website" name="website" type="text" tabIndex={-1} autoComplete="off" />
       </div>
 
-      {status.state === "error" ? (
+      {status.state === "error" && status.message ? (
         <p
-          className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800"
+          ref={errorBannerRef}
+          tabIndex={-1}
+          className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800 focus:outline-none"
           role="alert"
         >
           {status.message}
@@ -245,7 +297,7 @@ export function ContactForm({
       ) : null}
 
       <Button type="submit" size="lg" fullWidth disabled={submitting}>
-        {submitting ? "Mengirim..." : "Kirim pesan"}
+        {submitting ? "Mengirim…" : "Kirim pesan"}
       </Button>
 
       <p className="text-xs leading-relaxed text-ink-500">
@@ -260,15 +312,19 @@ function Field({
   label,
   name,
   hint,
+  error,
   required = false,
   ...props
 }: {
   label: string;
   name: string;
   hint?: string;
+  error?: string;
   required?: boolean;
 } & React.ComponentProps<"input">) {
   const hintId = hint ? `${name}-hint` : undefined;
+  const errorId = error ? `${name}-error` : undefined;
+  const describedBy = [hintId, errorId].filter(Boolean).join(" ") || undefined;
 
   return (
     <div>
@@ -279,11 +335,16 @@ function Field({
         id={name}
         name={name}
         required={required}
-        aria-describedby={hintId}
-        className="mt-1.5 w-full rounded-lg border border-ink-300 px-3.5 py-2.5 text-base text-ink-900 placeholder:text-ink-400 focus:border-brand-500 focus:ring-1 focus:ring-brand-500"
+        aria-invalid={error ? true : undefined}
+        aria-describedby={describedBy}
+        className="mt-1.5 w-full rounded-lg border border-ink-300 px-3.5 py-2.5 text-base text-ink-900 placeholder:text-ink-400 focus:border-brand-500 focus:ring-1 focus:ring-brand-500 aria-invalid:border-red-400"
         {...props}
       />
-      {hint ? (
+      {error ? (
+        <p id={errorId} className="mt-1 text-xs text-red-600">
+          {error}
+        </p>
+      ) : hint ? (
         <p id={hintId} className="mt-1 text-xs text-ink-500">
           {hint}
         </p>
