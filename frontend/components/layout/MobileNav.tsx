@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { NAV_LINKS } from "@/lib/site";
 import { cn } from "@/lib/cn";
@@ -30,6 +30,8 @@ export function MobileNav({
 }) {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
+  const panelRef = useRef<HTMLElement>(null);
+  const openButtonRef = useRef<HTMLButtonElement>(null);
 
   // Close on navigation, or the drawer stays open over the new page: the route
   // changes without unmounting this component.
@@ -44,27 +46,58 @@ export function MobileNav({
     setOpen(false);
   }
 
-  // Lock background scrolling while the drawer covers the screen.
+  // Lock background scrolling while the drawer covers the screen, trap
+  // keyboard focus inside it (so Tab can't reach content hidden behind the
+  // overlay), and return focus to the toggle button on close.
   useEffect(() => {
     if (!open) return;
 
+    const openButton = openButtonRef.current;
     const previous = document.body.style.overflow;
     document.body.style.overflow = "hidden";
 
+    const focusableSelector =
+      'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
+    const getFocusable = () =>
+      panelRef.current
+        ? Array.from(panelRef.current.querySelectorAll<HTMLElement>(focusableSelector))
+        : [];
+
+    getFocusable()[0]?.focus();
+
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setOpen(false);
+      if (event.key === "Escape") {
+        setOpen(false);
+        return;
+      }
+      if (event.key !== "Tab") return;
+
+      const items = getFocusable();
+      if (items.length === 0) return;
+      const first = items[0];
+      const last = items[items.length - 1];
+
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
     };
     document.addEventListener("keydown", onKeyDown);
 
     return () => {
       document.body.style.overflow = previous;
       document.removeEventListener("keydown", onKeyDown);
+      openButton?.focus();
     };
   }, [open]);
 
   return (
     <>
       <button
+        ref={openButtonRef}
         type="button"
         onClick={() => setOpen(true)}
         className="inline-flex h-11 w-11 items-center justify-center rounded-lg text-ink-700 hover:bg-ink-100 lg:hidden"
@@ -96,7 +129,10 @@ export function MobileNav({
           />
 
           <nav
+            ref={panelRef}
             id="mobile-nav"
+            role="dialog"
+            aria-modal="true"
             className="absolute right-0 top-0 flex h-full w-[min(20rem,85vw)] flex-col bg-white shadow-xl"
             aria-label="Navigasi utama"
           >
