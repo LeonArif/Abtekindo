@@ -31,8 +31,7 @@ export const SITE = {
    */
   whatsapp: "6285100723299",
 
-  // TODO: ganti dengan nomor telepon kantor
-  phone: "(021) XXXX-XXXX",
+  phone: "085100723299",
 
   email: "abtekindo89@gmail.com",
 
@@ -116,8 +115,8 @@ export function formatAddress(): string {
 /** Main navigation, in display order. */
 export const NAV_LINKS = [
   { href: "/", label: "Home" },
-  { href: "/produk", label: "Produk" },
-  { href: "/layanan", label: "Layanan" },
-  { href: "/tentang-kami", label: "Tentang Kami" },
-  { href: "/kontak", label: "Kontak" },
+  { href: "/produk", label: "Product" },
+  { href: "/layanan", label: "Services" },
+  { href: "/tentang-kami", label: "About Us" },
+  { href: "/kontak", label: "Contact" },
 ] as const;

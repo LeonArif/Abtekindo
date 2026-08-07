@@ -1,19 +1,13 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
-import { AirConditionerGlyph } from "@/components/ui/Placeholder";
-
-/**
- * Placeholder slide captions, standing in for real installation/showroom
- * photography. Swap each caption for a real <Image> once photos exist — the
- * carousel mechanics (arrows, dots, autoplay) do not need to change.
- */
 const SLIDES = [
-  "Pemasangan AC baru",
-  "Cuci AC berkala",
-  "Servis dan perbaikan",
-  "Unit resmi siap kirim",
+  { src: "/pasang_ac.png", caption: "Pemasangan AC baru" },
+  { src: "/cuci_ac.png", caption: "Cuci AC berkala" },
+  { src: "/service_ac.png", caption: "Servis dan perbaikan" },
+  { src: "/unit_ac.png", caption: "Unit resmi siap kirim" },
 ];
 
 const INTERVAL_MS = 3000;
@@ -73,16 +67,22 @@ export function HeroCarousel() {
       </svg>
 
       <div role="group" aria-label="Galeri foto Abtekindo" aria-roledescription="carousel">
-        {SLIDES.map((caption, i) => (
+        {SLIDES.map((slide, i) => (
           <div
-            key={caption}
-            className={`absolute inset-0 flex flex-col items-center justify-center gap-4 text-center transition-opacity duration-700 ${
+            key={slide.src}
+            className={`absolute inset-0 transition-opacity duration-700 ${
               i === index ? "opacity-100" : "opacity-0"
             }`}
             aria-hidden={i !== index}
           >
-            <AirConditionerGlyph className="h-24 w-24 text-brand-600" />
-            <p className="max-w-xs px-6 text-sm font-medium text-ink-700">{caption}</p>
+            <Image
+              src={slide.src}
+              alt={slide.caption}
+              fill
+              priority={i === 0}
+              sizes="(min-width: 1024px) 40vw, 90vw"
+              className="object-cover"
+            />
           </div>
         ))}
       </div>
@@ -91,7 +91,7 @@ export function HeroCarousel() {
         type="button"
         onClick={() => go(index - 1)}
         aria-label="Foto sebelumnya"
-        className="absolute left-3 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center bg-white/90 text-ink-900 shadow-sm transition-colors hover:bg-white"
+        className="absolute left-3 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center bg-black text-white shadow-sm transition-colors hover:bg-ink-800"
       >
         <ChevronIcon direction="left" />
       </button>
@@ -99,33 +99,33 @@ export function HeroCarousel() {
         type="button"
         onClick={() => go(index + 1)}
         aria-label="Foto berikutnya"
-        className="absolute right-3 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center bg-white/90 text-ink-900 shadow-sm transition-colors hover:bg-white"
+        className="absolute right-3 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center bg-black text-white shadow-sm transition-colors hover:bg-ink-800"
       >
         <ChevronIcon direction="right" />
       </button>
 
-      <div className="absolute bottom-4 left-1/2 flex -translate-x-1/2 gap-2">
-        {SLIDES.map((caption, i) => (
+      <div className="absolute bottom-4 left-1/2 flex -translate-x-1/2 items-center gap-2">
+        {SLIDES.map((slide, i) => (
           <button
-            key={caption}
+            key={slide.src}
             type="button"
             onClick={() => go(i)}
-            aria-label={`Ke foto ${i + 1}: ${caption}`}
+            aria-label={`Ke foto ${i + 1}: ${slide.caption}`}
             aria-current={i === index}
-            className="h-1.5 w-8 overflow-hidden rounded-full bg-white/40"
+            className="h-2 overflow-hidden rounded-full bg-ink-400 transition-[width] duration-300 ease-out"
+            style={{ width: i === index ? "2rem" : "0.5rem" }}
           >
-            {i < index ? (
-              <span className="block h-full w-full bg-white" />
-            ) : i === index ? (
+            {i === index ? (
               <span
                 key={index}
-                className="block h-full bg-white"
+                className="block h-full w-0 bg-white"
                 style={{
                   animationName: "carousel-progress",
                   animationDuration: `${INTERVAL_MS}ms`,
                   animationTimingFunction: "linear",
-                  animationFillMode: "forwards",
+                  animationFillMode: "both",
                   animationPlayState: paused ? "paused" : "running",
+                  animationDelay: "300ms",
                 }}
               />
             ) : null}
