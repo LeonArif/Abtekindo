@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Suspense } from "react";
 
-import { getProducts } from "@/lib/api/server";
+import { getProducts, safely } from "@/lib/api/server";
 import { isBrand, isProductType } from "@/lib/api/types";
 import { SITE } from "@/lib/site";
 import { ProductGrid } from "@/components/product/ProductCard";
@@ -50,13 +50,11 @@ export default async function ProductsPage(props: PageProps<"/produk">) {
   const pk = parseNumbers(params.pk);
   const page = Math.max(1, Number(params.page) || 1);
 
-  const { products, pagination } = await getProducts({
-    brand,
-    type,
-    pk,
-    page,
-    pageSize: PAGE_SIZE,
-  });
+  const { products, pagination } = await safely(
+    getProducts({ brand, type, pk, page, pageSize: PAGE_SIZE }),
+    { products: [], pagination: { page, pageSize: PAGE_SIZE, total: 0, totalPages: 1 } },
+    "produk listing",
+  );
 
   return (
     <>

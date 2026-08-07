@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
-import { getServices } from "@/lib/api/server";
+import { getServices, safely } from "@/lib/api/server";
 import { SITE, hasWhatsApp } from "@/lib/site";
 import { generalEnquiry } from "@/lib/whatsapp";
 import { Container, Section, SectionHeading } from "@/components/ui/Container";
@@ -36,7 +36,7 @@ const STEPS = [
 ];
 
 export default async function ServicesPage() {
-  const services = await getServices();
+  const services = await safely(getServices(), [], "layanan services");
 
   return (
     <>
