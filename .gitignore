@@ -14,3 +14,7 @@
 # os
 .DS_Store
 Thumbs.db
+
+# misc
+.claude
+.lavish

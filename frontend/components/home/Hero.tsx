@@ -26,12 +26,12 @@ export function Hero() {
     <section className="relative overflow-hidden bg-brand-900 text-white">
       {/* Pinned to the section's own edges, well outside the text and stat
           columns on every breakpoint. */}
-      <Scribble variant="cross" className="right-3 top-3 h-9 w-9 opacity-30" />
-      <Scribble variant="compass" className="left-3 bottom-3 h-10 w-10 opacity-25" tone="gold" />
-      <Scribble variant="compass" className="right-[3%] top-1/3 hidden h-8 w-8 opacity-20 lg:block" />
+      <Scribble variant="cross" className="right-3 top-3 h-12 w-12 opacity-45" />
+      <Scribble variant="compass" className="left-3 bottom-3 h-14 w-14 opacity-40" tone="gold" />
+      <Scribble variant="compass" className="right-[3%] top-1/3 hidden h-11 w-11 opacity-35 lg:block" />
       <Scribble
         variant="cross"
-        className="left-[2%] top-1/2 hidden h-7 w-7 opacity-20 lg:block"
+        className="left-[2%] top-1/2 hidden h-10 w-10 opacity-35 lg:block"
         tone="gold"
       />
 
@@ -78,10 +78,10 @@ export function Hero() {
           <div className="animate-reveal relative" style={{ animationDelay: "200ms" }}>
             <Scribble
               variant="cross"
-              className="-right-2 -top-2 h-8 w-8 opacity-40"
+              className="-right-2 -top-2 h-11 w-11 opacity-55"
               tone="gold"
             />
-            <Scribble variant="compass" className="-bottom-3 -left-3 h-9 w-9 opacity-35" />
+            <Scribble variant="compass" className="-bottom-3 -left-3 h-12 w-12 opacity-50" />
             <HeroCarousel />
           </div>
         </div>

@@ -46,8 +46,30 @@ export default function LoginPage() {
     <div className="flex min-h-screen items-center justify-center bg-ink-50 px-4 py-12">
       <div className="w-full max-w-sm">
         <div className="text-center">
-          <span className="mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-brand-600 text-lg font-bold text-white">
-            A
+          <span className="mx-auto flex h-16 w-16 items-center justify-center rounded-xl bg-ink-900">
+            {/* Same crystal mark as the site header (components/layout/Logo.tsx),
+                inverted for the dark badge background. */}
+            <svg width="36" height="36" viewBox="0 0 40 40" aria-hidden="true">
+              <g stroke="#ffffff" strokeWidth="3.2" strokeLinecap="round">
+                <line x1="4" y1="20" x2="36" y2="20" />
+                <line x1="12" y1="6.14" x2="28" y2="33.86" />
+                <line x1="24" y1="6.14" x2="16" y2="33.86" />
+                <line x1="34.4" y1="16.1" x2="34.4" y2="23.9" />
+                <line x1="23.82" y1="34.42" x2="30.58" y2="30.52" />
+                <line x1="9.42" y1="30.52" x2="16.18" y2="34.42" />
+                <line x1="5.6" y1="16.1" x2="5.6" y2="23.9" />
+                <line x1="16.18" y1="5.58" x2="9.42" y2="9.48" />
+                <line x1="30.58" y1="9.48" x2="23.82" y2="5.58" />
+              </g>
+              <rect
+                x="16.4"
+                y="16.4"
+                width="7.2"
+                height="7.2"
+                fill="#FBC94C"
+                transform="rotate(45 20 20)"
+              />
+            </svg>
           </span>
           <h1 className="mt-4 text-2xl font-bold text-ink-900">Panel Admin</h1>
           <p className="mt-1 text-sm text-ink-500">{SITE.legalName}</p>
@@ -95,7 +117,7 @@ export default function LoginPage() {
             </p>
           ) : null}
 
-          <Button type="submit" fullWidth size="lg" disabled={submitting}>
+          <Button type="submit" variant="secondary" fullWidth size="lg" disabled={submitting}>
             {submitting ? "Memproses..." : "Masuk"}
           </Button>
         </form>

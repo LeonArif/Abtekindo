@@ -11,6 +11,7 @@ import { Container } from "@/components/ui/Container";
 import { ButtonLink } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
 import { Scribble } from "@/components/ui/Scribble";
+import { Reveal } from "@/components/ui/Reveal";
 import { BreadcrumbJsonLd } from "@/components/seo/JsonLd";
 
 export const metadata: Metadata = {
@@ -67,10 +68,10 @@ export default async function ProductsPage(props: PageProps<"/produk">) {
       />
 
       <div className="relative overflow-hidden bg-brand-900 text-white">
-        <Scribble variant="cross" className="right-[10%] top-8 h-16 w-16 opacity-30" />
-        <Scribble variant="compass" className="right-[22%] bottom-10 h-10 w-10 opacity-20" />
+        <Scribble variant="cross" className="right-[10%] top-8 h-20 w-20 opacity-45" />
+        <Scribble variant="compass" className="right-[22%] bottom-10 h-12 w-12 opacity-35" />
         <Container>
-          <div className="relative flex min-h-[19rem] flex-col justify-center py-10 sm:min-h-[24rem] sm:py-14">
+          <div className="animate-slide-in-left relative flex min-h-[19rem] flex-col justify-center py-10 sm:min-h-[24rem] sm:py-14">
             <nav aria-label="Remah roti" className="text-sm text-ink-400">
               <ol className="flex items-center gap-2">
                 <li>
@@ -102,31 +103,33 @@ export default async function ProductsPage(props: PageProps<"/produk">) {
         </Container>
       </div>
 
-      <Container>
-        <div className="grid gap-8 py-10 lg:grid-cols-[16rem_1fr] lg:gap-10">
-          <aside className="lg:sticky lg:top-24 lg:h-fit">
-            {/* useSearchParams needs a Suspense boundary during prerendering. */}
-            <Suspense fallback={<FiltersSkeleton />}>
-              <ProductFilters total={pagination.total} />
-            </Suspense>
-          </aside>
+      <Reveal delay={80}>
+        <Container>
+          <div className="grid gap-8 py-10 lg:grid-cols-[16rem_1fr] lg:gap-10">
+            <aside className="lg:sticky lg:top-24 lg:h-fit">
+              {/* useSearchParams needs a Suspense boundary during prerendering. */}
+              <Suspense fallback={<FiltersSkeleton />}>
+                <ProductFilters total={pagination.total} />
+              </Suspense>
+            </aside>
 
-          <div>
-            {products.length === 0 ? (
-              <EmptyState />
-            ) : (
-              <>
-                <ProductGrid products={products} />
-                <Pagination
-                  page={pagination.page}
-                  totalPages={pagination.totalPages}
-                  searchParams={params}
-                />
-              </>
-            )}
+            <div>
+              {products.length === 0 ? (
+                <EmptyState />
+              ) : (
+                <>
+                  <ProductGrid products={products} />
+                  <Pagination
+                    page={pagination.page}
+                    totalPages={pagination.totalPages}
+                    searchParams={params}
+                  />
+                </>
+              )}
+            </div>
           </div>
-        </div>
-      </Container>
+        </Container>
+      </Reveal>
     </>
   );
 }

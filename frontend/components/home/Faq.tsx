@@ -58,8 +58,8 @@ export function Faq() {
     <>
       <FaqJsonLd items={FAQ_ITEMS} />
       <Section tone="muted" id="faq" className="relative overflow-hidden">
-        <Scribble variant="cross" className="left-[8%] top-6 h-10 w-10 opacity-40" />
-        <Scribble variant="compass" className="right-[8%] bottom-10 h-12 w-12 opacity-30" tone="gold" />
+        <Scribble variant="cross" className="left-[8%] top-6 h-14 w-14 opacity-55" />
+        <Scribble variant="compass" className="right-[8%] bottom-10 h-16 w-16 opacity-45" tone="gold" />
         <SectionHeading
           eyebrow="FAQ"
           title="Pertanyaan yang sering diajukan"

@@ -35,8 +35,8 @@ export function PriceHighlights({ products }: { products: Product[] }) {
 
   return (
     <div className="relative overflow-hidden border-b border-ink-200 bg-brand-50">
-      <Scribble variant="cross" className="right-2 top-1 h-6 w-6 opacity-30" />
-      <Scribble variant="compass" className="left-2 bottom-1 h-7 w-7 opacity-25" tone="gold" />
+      <Scribble variant="cross" className="right-2 top-1 h-8 w-8 opacity-45" />
+      <Scribble variant="compass" className="left-2 bottom-1 h-9 w-9 opacity-40" tone="gold" />
       <Container>
         <ul className="grid grid-cols-2 divide-x divide-y divide-ink-200 sm:grid-cols-4 sm:divide-y-0">
           {items.map((item) => (
@@ -59,9 +59,9 @@ export function ServiceHighlights({ services }: { services: Service[] }) {
 
   return (
     <Section tone="muted" className="relative overflow-hidden">
-      <Scribble variant="cross" className="bottom-6 left-6 h-10 w-10 opacity-50" />
-      <Scribble variant="compass" className="left-[8%] top-10 h-12 w-12 opacity-40" />
-      <Scribble variant="cross" className="right-[6%] bottom-10 h-8 w-8 opacity-40" tone="gold" />
+      <Scribble variant="cross" className="bottom-6 left-6 h-14 w-14 opacity-60" />
+      <Scribble variant="compass" className="left-[8%] top-10 h-16 w-16 opacity-55" />
+      <Scribble variant="cross" className="right-[6%] bottom-10 h-11 w-11 opacity-55" tone="gold" />
 
       <SectionHeading
         eyebrow="Layanan"
@@ -94,8 +94,8 @@ export function ServiceHighlights({ services }: { services: Service[] }) {
 export function BrandStrip() {
   return (
     <Section className="relative overflow-hidden">
-      <Scribble variant="compass" className="left-[6%] top-6 h-11 w-11 opacity-35" />
-      <Scribble variant="cross" className="right-[6%] bottom-6 h-9 w-9 opacity-35" tone="gold" />
+      <Scribble variant="compass" className="left-[6%] top-6 h-14 w-14 opacity-50" />
+      <Scribble variant="cross" className="right-[6%] bottom-6 h-12 w-12 opacity-50" tone="gold" />
       <SectionHeading
         eyebrow="Merek resmi"
         title="Merek yang kami sediakan"
@@ -123,7 +123,8 @@ export function FeaturedProducts({ products }: { products: Product[] }) {
 
   return (
     <Section className="relative overflow-hidden">
-      <Scribble variant="cross" className="right-16 top-4 h-14 w-14 opacity-60" />
+      <Scribble variant="cross" className="right-16 top-4 h-20 w-20 opacity-70" />
+      <Scribble variant="compass" className="left-[6%] bottom-6 h-12 w-12 opacity-45" tone="gold" />
 
       <SectionHeading
         eyebrow="Produk pilihan"
@@ -164,8 +165,8 @@ const STEPS = [
 export function HowToOrder() {
   return (
     <Section tone="muted" className="relative overflow-hidden">
-      <Scribble variant="cross" className="left-[10%] top-8 h-10 w-10 opacity-35" />
-      <Scribble variant="compass" className="right-[10%] bottom-8 h-11 w-11 opacity-35" tone="gold" />
+      <Scribble variant="cross" className="left-[10%] top-8 h-14 w-14 opacity-50" />
+      <Scribble variant="compass" className="right-[10%] bottom-8 h-16 w-16 opacity-50" tone="gold" />
       <SectionHeading
         eyebrow="Cara pesan"
         title="Prosesnya sederhana"
@@ -190,8 +191,8 @@ export function HowToOrder() {
 export function CtaBand() {
   return (
     <Section tone="brand" className="relative overflow-hidden">
-      <Scribble variant="compass" className="right-10 top-8 h-16 w-16 opacity-40" />
-      <Scribble variant="cross" className="left-[8%] bottom-6 h-9 w-9 opacity-30" tone="gold" />
+      <Scribble variant="compass" className="right-10 top-8 h-20 w-20 opacity-55" />
+      <Scribble variant="cross" className="left-[8%] bottom-6 h-12 w-12 opacity-45" tone="gold" />
       <div className="relative mx-auto max-w-3xl text-center">
         <h2 className="text-3xl sm:text-4xl">AC bermasalah, atau mau pasang baru?</h2>
         <p className="mt-4 text-lg text-ink-300">

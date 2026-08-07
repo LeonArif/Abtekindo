@@ -32,8 +32,8 @@ const PROPS = [
 export function ValueProps() {
   return (
     <div className="relative overflow-hidden border-y border-ink-200 bg-white">
-      <Scribble variant="cross" className="right-1 top-2 h-7 w-7 opacity-30" />
-      <Scribble variant="compass" className="left-1 bottom-2 h-8 w-8 opacity-25" tone="gold" />
+      <Scribble variant="cross" className="right-1 top-2 h-9 w-9 opacity-45" />
+      <Scribble variant="compass" className="left-1 bottom-2 h-10 w-10 opacity-40" tone="gold" />
       <Container>
         <ul className="grid grid-cols-1 divide-y divide-ink-200 sm:grid-cols-2 sm:divide-x sm:divide-y-0 lg:grid-cols-4">
           {PROPS.map((item) => (

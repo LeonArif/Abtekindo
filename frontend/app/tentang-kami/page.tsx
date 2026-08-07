@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 
 import { SITE, hasWhatsApp } from "@/lib/site";
 import { generalEnquiry } from "@/lib/whatsapp";
 import { Container, Section, SectionHeading } from "@/components/ui/Container";
 import { ButtonLink, ExternalButtonLink } from "@/components/ui/Button";
-import { AirConditionerGlyph } from "@/components/ui/Placeholder";
 import { Scribble } from "@/components/ui/Scribble";
+import { Reveal } from "@/components/ui/Reveal";
 import { WhatsAppIcon } from "@/components/layout/MobileNav";
 import { BreadcrumbJsonLd } from "@/components/seo/JsonLd";
 
@@ -56,10 +57,10 @@ export default function AboutPage() {
       {/* Dark intro band, echoing the CTA bands elsewhere: the about page is
           where the brand gets to make an impression, not just report facts. */}
       <div className="relative overflow-hidden bg-brand-900 text-white">
-        <Scribble variant="compass" className="right-16 top-10 h-24 w-24 opacity-25" />
-        <Scribble variant="cross" className="right-[28%] bottom-8 h-9 w-9 opacity-20" />
+        <Scribble variant="compass" className="right-16 top-10 h-28 w-28 opacity-40" />
+        <Scribble variant="cross" className="right-[28%] bottom-8 h-12 w-12 opacity-35" />
         <Container>
-          <div className="relative flex min-h-[19rem] flex-col justify-center py-10 sm:min-h-[24rem] sm:py-14">
+          <div className="animate-slide-in-left relative flex min-h-[19rem] flex-col justify-center py-10 sm:min-h-[24rem] sm:py-14">
             <nav aria-label="Remah roti" className="text-sm text-ink-400">
               <ol className="flex items-center gap-2">
                 <li>
@@ -84,8 +85,9 @@ export default function AboutPage() {
         </Container>
       </div>
 
+      <Reveal delay={80}>
       <Container>
-        <div className="grid gap-10 py-12 lg:grid-cols-2 lg:items-center lg:gap-16">
+        <div className="grid gap-10 py-12 lg:grid-cols-2 lg:items-stretch lg:gap-16">
           <div>
             <p className="text-lg leading-relaxed text-ink-700">
               {SITE.legalName} adalah perusahaan yang bergerak di bidang
@@ -107,33 +109,14 @@ export default function AboutPage() {
             </p>
           </div>
 
-          <div className="relative aspect-[4/3] overflow-hidden border border-ink-200 bg-brand-200">
-            <svg
-              width="100%"
-              height="100%"
-              viewBox="0 0 600 620"
-              className="absolute inset-0"
-              aria-hidden="true"
-            >
-              <defs>
-                <pattern
-                  id="about-diag"
-                  width="18"
-                  height="18"
-                  patternTransform="rotate(45)"
-                  patternUnits="userSpaceOnUse"
-                >
-                  <line x1="0" y1="0" x2="0" y2="18" stroke="var(--color-brand-300)" strokeWidth="8" />
-                </pattern>
-              </defs>
-              <rect width="600" height="620" fill="url(#about-diag)" />
-            </svg>
-            <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 text-center">
-              <AirConditionerGlyph className="h-24 w-24 text-brand-600" />
-              <p className="max-w-xs px-6 text-sm font-medium text-ink-700">
-                Foto tim atau showroom Abtekindo
-              </p>
-            </div>
+          <div className="relative min-h-[20rem] overflow-hidden border border-ink-200">
+            <Image
+              src="/office.png"
+              alt={`Kantor ${SITE.legalName}`}
+              fill
+              sizes="(min-width: 1024px) 50vw, 100vw"
+              className="object-cover"
+            />
           </div>
         </div>
 
@@ -145,70 +128,79 @@ export default function AboutPage() {
           <Stat value={String(SITE.brands.length)} label="Merek resmi" />
         </div>
       </Container>
+      </Reveal>
 
-      <Section tone="muted" className="relative overflow-hidden">
-        <Scribble variant="cross" className="right-10 top-6 h-14 w-14 opacity-50" />
-        <SectionHeading
-          eyebrow="Nilai kami"
-          title="Kenapa memilih kami"
-          description="Empat hal yang menjadi pegangan kami dalam melayani setiap pelanggan."
-        />
-        <ul className="relative mt-10 grid gap-5 sm:grid-cols-2">
-          {VALUES.map((value) => (
-            <li
-              key={value.title}
-              className={
-                value.tone === "brand"
-                  ? "border-t-2 border-brand-500 bg-white p-6"
-                  : "border-t-2 border-gold-300 bg-white p-6"
-              }
-            >
-              <h3 className="text-lg font-semibold text-ink-900">{value.title}</h3>
-              <p className="mt-2 leading-relaxed text-ink-600">{value.body}</p>
-            </li>
-          ))}
-        </ul>
-      </Section>
+      <Reveal delay={160}>
+        <Section tone="muted" className="relative overflow-hidden">
+          <Scribble variant="cross" className="right-10 top-6 h-16 w-16 opacity-65" />
+          <Scribble variant="compass" className="left-[6%] bottom-4 h-11 w-11 opacity-40" tone="gold" />
+          <SectionHeading
+            eyebrow="Nilai kami"
+            title="Kenapa memilih kami"
+            description="Empat hal yang menjadi pegangan kami dalam melayani setiap pelanggan."
+          />
+          <ul className="relative mt-10 grid gap-5 sm:grid-cols-2">
+            {VALUES.map((value) => (
+              <li
+                key={value.title}
+                className={
+                  value.tone === "brand"
+                    ? "border-t-2 border-brand-500 bg-white p-6"
+                    : "border-t-2 border-gold-300 bg-white p-6"
+                }
+              >
+                <h3 className="text-lg font-semibold text-ink-900">{value.title}</h3>
+                <p className="mt-2 leading-relaxed text-ink-600">{value.body}</p>
+              </li>
+            ))}
+          </ul>
+        </Section>
+      </Reveal>
 
-      <Section className="relative overflow-hidden">
-        <SectionHeading
-          eyebrow="Jangkauan"
-          title="Area layanan kami"
-          description="Kami melayani pemasangan dan perawatan di wilayah berikut. Di luar area ini, silakan hubungi kami untuk konfirmasi."
-        />
-        <ul className="mx-auto mt-8 flex max-w-3xl flex-wrap justify-center gap-2">
-          {SITE.serviceAreas.map((area) => (
-            <li
-              key={area}
-              className="rounded-[2px] bg-ink-100 px-4 py-2 text-sm font-medium text-ink-700"
-            >
-              {area}
-            </li>
-          ))}
-        </ul>
-      </Section>
+      <Reveal delay={240}>
+        <Section className="relative overflow-hidden">
+          <SectionHeading
+            eyebrow="Jangkauan"
+            title="Area layanan kami"
+            description="Kami melayani pemasangan dan perawatan di wilayah berikut. Di luar area ini, silakan hubungi kami untuk konfirmasi."
+          />
+          <ul className="mx-auto mt-8 flex max-w-3xl flex-wrap justify-center gap-2">
+            {SITE.serviceAreas.map((area) => (
+              <li
+                key={area}
+                className="rounded-[2px] bg-ink-100 px-4 py-2 text-sm font-medium text-ink-700"
+              >
+                {area}
+              </li>
+            ))}
+          </ul>
+        </Section>
+      </Reveal>
 
-      <Section tone="brand" className="relative overflow-hidden">
-        <Scribble variant="compass" className="right-10 top-8 h-16 w-16 opacity-40" />
-        <div className="relative mx-auto max-w-3xl text-center">
-          <h2 className="text-3xl sm:text-4xl">Mari bicarakan kebutuhan AC Anda</h2>
-          <p className="mt-4 text-lg text-ink-300">
-            Konsultasi gratis, tanpa kewajiban membeli. Kami bantu tentukan unit
-            dan kapasitas yang paling sesuai.
-          </p>
-          <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
-            {hasWhatsApp ? (
-              <ExternalButtonLink href={generalEnquiry()} variant="invert" size="lg">
-                <WhatsAppIcon className="h-5 w-5" />
-                Chat WhatsApp
-              </ExternalButtonLink>
-            ) : null}
-            <ButtonLink href="/produk" variant="outline-invert" size="lg">
-              Lihat katalog produk
-            </ButtonLink>
+      <Reveal delay={320}>
+        <Section tone="brand" className="relative overflow-hidden">
+          <Scribble variant="compass" className="right-10 top-8 h-20 w-20 opacity-55" />
+          <Scribble variant="cross" className="left-[8%] bottom-6 h-12 w-12 opacity-45" tone="gold" />
+          <div className="relative mx-auto max-w-3xl text-center">
+            <h2 className="text-3xl sm:text-4xl">Mari bicarakan kebutuhan AC Anda</h2>
+            <p className="mt-4 text-lg text-ink-300">
+              Konsultasi gratis, tanpa kewajiban membeli. Kami bantu tentukan unit
+              dan kapasitas yang paling sesuai.
+            </p>
+            <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
+              {hasWhatsApp ? (
+                <ExternalButtonLink href={generalEnquiry()} variant="invert" size="lg">
+                  <WhatsAppIcon className="h-5 w-5" />
+                  Chat WhatsApp
+                </ExternalButtonLink>
+              ) : null}
+              <ButtonLink href="/produk" variant="outline-invert" size="lg">
+                Lihat katalog produk
+              </ButtonLink>
+            </div>
           </div>
-        </div>
-      </Section>
+        </Section>
+      </Reveal>
     </>
   );
 }

@@ -1,5 +1,8 @@
 .DEFAULT_GOAL := help
 
+# Defaults to local Docker Postgres; override on the command line to target
+# another database, e.g. a one-off migration run against Supabase:
+#   DATABASE_URL="postgres://postgres:[password]@db.[project-ref].supabase.co:5432/postgres?sslmode=require" make migrate-up
 DATABASE_URL ?= postgres://abtekindo:abtekindo@localhost:5432/abtekindo?sslmode=disable
 MIGRATE := go run -tags 'postgres' github.com/golang-migrate/migrate/v4/cmd/migrate
 

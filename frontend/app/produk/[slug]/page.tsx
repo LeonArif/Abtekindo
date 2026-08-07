@@ -11,6 +11,7 @@ import { ButtonLink, ExternalButtonLink } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { ProductImage } from "@/components/ui/Placeholder";
 import { Scribble } from "@/components/ui/Scribble";
+import { Reveal } from "@/components/ui/Reveal";
 import { ProductCard } from "@/components/product/ProductCard";
 import { WhatsAppIcon } from "@/components/layout/MobileNav";
 import { BreadcrumbJsonLd, ProductJsonLd } from "@/components/seo/JsonLd";
@@ -122,7 +123,7 @@ export default async function ProductPage(props: PageProps<"/produk/[slug]">) {
           </ol>
         </nav>
 
-        <div className="grid gap-8 pb-12 lg:grid-cols-2 lg:gap-12">
+        <div className="animate-slide-in-left grid gap-8 pb-12 lg:grid-cols-2 lg:gap-12">
           <div>
             <ProductImage
               src={product.images[0]?.url}
@@ -211,43 +212,48 @@ export default async function ProductPage(props: PageProps<"/produk/[slug]">) {
           </div>
         </div>
 
-        <section className="relative overflow-hidden pb-12" aria-labelledby="spesifikasi">
-          <Scribble variant="cross" className="right-6 top-0 h-11 w-11 opacity-40" />
-          <h2 id="spesifikasi" className="text-2xl text-ink-900">
-            Spesifikasi
-          </h2>
-          {/* Wrapped so the table scrolls inside its own box on a narrow screen
-              rather than making the whole page scroll sideways. */}
-          <div className="scroll-x mt-5 rounded-card border border-ink-200">
-            <table className="w-full text-left text-sm">
-              <caption className="sr-only">Spesifikasi teknis {product.name}</caption>
-              <tbody className="divide-y divide-ink-200">
-                {specs.map((spec) => (
-                  <tr key={spec.label}>
-                    <th scope="row" className="w-1/3 bg-ink-50 px-4 py-3 font-medium text-ink-700">
-                      {spec.label}
-                    </th>
-                    <td className="px-4 py-3 text-ink-900">{spec.value}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </section>
+        <Reveal delay={80}>
+          <section className="relative overflow-hidden pb-12" aria-labelledby="spesifikasi">
+            <Scribble variant="cross" className="right-6 top-0 h-14 w-14 opacity-55" />
+            <Scribble variant="compass" className="left-[4%] bottom-2 h-10 w-10 opacity-35" tone="gold" />
+            <h2 id="spesifikasi" className="text-2xl text-ink-900">
+              Spesifikasi
+            </h2>
+            {/* Wrapped so the table scrolls inside its own box on a narrow screen
+                rather than making the whole page scroll sideways. */}
+            <div className="scroll-x mt-5 rounded-card border border-ink-200">
+              <table className="w-full text-left text-sm">
+                <caption className="sr-only">Spesifikasi teknis {product.name}</caption>
+                <tbody className="divide-y divide-ink-200">
+                  {specs.map((spec) => (
+                    <tr key={spec.label}>
+                      <th scope="row" className="w-1/3 bg-ink-50 px-4 py-3 font-medium text-ink-700">
+                        {spec.label}
+                      </th>
+                      <td className="px-4 py-3 text-ink-900">{spec.value}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </section>
+        </Reveal>
 
         {related.length > 0 ? (
-          <section className="border-t border-ink-200 py-12" aria-labelledby="terkait">
-            <h2 id="terkait" className="text-2xl font-bold text-ink-900">
-              Produk serupa
-            </h2>
-            <ul className="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-              {related.map((item) => (
-                <li key={item.id} className="flex">
-                  <ProductCard product={item} />
-                </li>
-              ))}
-            </ul>
-          </section>
+          <Reveal delay={160}>
+            <section className="border-t border-ink-200 py-12" aria-labelledby="terkait">
+              <h2 id="terkait" className="text-2xl font-bold text-ink-900">
+                Produk serupa
+              </h2>
+              <ul className="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+                {related.map((item) => (
+                  <li key={item.id} className="flex">
+                    <ProductCard product={item} />
+                  </li>
+                ))}
+              </ul>
+            </section>
+          </Reveal>
         ) : null}
       </Container>
     </>

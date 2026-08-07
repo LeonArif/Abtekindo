@@ -6,6 +6,7 @@ import { generalEnquiry } from "@/lib/whatsapp";
 import { Container, Section, SectionHeading } from "@/components/ui/Container";
 import { ExternalButtonLink } from "@/components/ui/Button";
 import { Scribble } from "@/components/ui/Scribble";
+import { Reveal } from "@/components/ui/Reveal";
 import { ContactForm } from "@/components/contact/ContactForm";
 import { WhatsAppIcon } from "@/components/layout/MobileNav";
 import { BreadcrumbJsonLd } from "@/components/seo/JsonLd";
@@ -31,10 +32,10 @@ export default function ContactPage() {
       />
 
       <div className="relative overflow-hidden bg-brand-900 text-white">
-        <Scribble variant="compass" className="right-[26%] bottom-6 h-11 w-11 opacity-20" />
-        <Scribble variant="cross" className="left-[6%] top-10 h-9 w-9 opacity-20" />
+        <Scribble variant="compass" className="right-[26%] bottom-6 h-14 w-14 opacity-35" />
+        <Scribble variant="cross" className="left-[6%] top-10 h-12 w-12 opacity-35" />
         <Container>
-          <div className="relative flex min-h-[19rem] flex-col justify-center py-10 sm:min-h-[24rem] sm:py-14">
+          <div className="animate-slide-in-left relative flex min-h-[19rem] flex-col justify-center py-10 sm:min-h-[24rem] sm:py-14">
             <nav aria-label="Remah roti" className="text-sm text-ink-400">
               <ol className="flex items-center gap-2">
                 <li>
@@ -55,8 +56,10 @@ export default function ContactPage() {
         </Container>
       </div>
 
+      <Reveal delay={80}>
       <div className="relative overflow-hidden">
-        <Scribble variant="cross" className="right-[6%] top-8 h-11 w-11 opacity-40" />
+        <Scribble variant="cross" className="right-[6%] top-8 h-14 w-14 opacity-55" />
+        <Scribble variant="compass" className="left-[6%] bottom-4 h-11 w-11 opacity-40" tone="gold" />
         <Container>
         <div className="relative grid gap-10 py-12 lg:grid-cols-[1fr_1.1fr] lg:gap-16">
           <div>
@@ -155,39 +158,44 @@ export default function ContactPage() {
         </div>
         </Container>
       </div>
+      </Reveal>
 
       {hasMaps ? (
-        <section aria-labelledby="lokasi" className="border-t border-ink-200">
-          <h2 id="lokasi" className="sr-only">
-            Lokasi kami
-          </h2>
-          <iframe
-            src={SITE.mapsEmbedUrl}
-            title={`Peta lokasi ${SITE.legalName}`}
-            loading="lazy"
-            referrerPolicy="no-referrer-when-downgrade"
-            className="h-[24rem] w-full border-0"
-          />
-        </section>
+        <Reveal delay={160}>
+          <section aria-labelledby="lokasi" className="border-t border-ink-200">
+            <h2 id="lokasi" className="sr-only">
+              Lokasi kami
+            </h2>
+            <iframe
+              src={SITE.mapsEmbedUrl}
+              title={`Peta lokasi ${SITE.legalName}`}
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              className="h-[24rem] w-full border-0"
+            />
+          </section>
+        </Reveal>
       ) : null}
 
-      <Section tone="muted" className="relative overflow-hidden">
-        <SectionHeading
-          eyebrow="Jangkauan"
-          title="Area yang kami layani"
-          description="Berada di luar daftar ini? Hubungi kami, sebagian area sekitarnya tetap dapat kami layani."
-        />
-        <ul className="mx-auto mt-8 flex max-w-3xl flex-wrap justify-center gap-2">
-          {SITE.serviceAreas.map((area) => (
-            <li
-              key={area}
-              className="rounded-[2px] bg-white px-4 py-2 text-sm font-medium text-ink-700"
-            >
-              {area}
-            </li>
-          ))}
-        </ul>
-      </Section>
+      <Reveal delay={240}>
+        <Section tone="muted" className="relative overflow-hidden">
+          <SectionHeading
+            eyebrow="Jangkauan"
+            title="Area yang kami layani"
+            description="Berada di luar daftar ini? Hubungi kami, sebagian area sekitarnya tetap dapat kami layani."
+          />
+          <ul className="mx-auto mt-8 flex max-w-3xl flex-wrap justify-center gap-2">
+            {SITE.serviceAreas.map((area) => (
+              <li
+                key={area}
+                className="rounded-[2px] bg-white px-4 py-2 text-sm font-medium text-ink-700"
+              >
+                {area}
+              </li>
+            ))}
+          </ul>
+        </Section>
+      </Reveal>
     </>
   );
 }

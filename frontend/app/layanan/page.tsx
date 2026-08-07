@@ -7,6 +7,7 @@ import { generalEnquiry } from "@/lib/whatsapp";
 import { Container, Section, SectionHeading } from "@/components/ui/Container";
 import { ButtonLink, ExternalButtonLink } from "@/components/ui/Button";
 import { Scribble } from "@/components/ui/Scribble";
+import { Reveal } from "@/components/ui/Reveal";
 import { ServiceDetail } from "@/components/service/ServiceCard";
 import { WhatsAppIcon } from "@/components/layout/MobileNav";
 import { BreadcrumbJsonLd, ServiceJsonLd } from "@/components/seo/JsonLd";
@@ -50,10 +51,10 @@ export default async function ServicesPage() {
       ))}
 
       <div className="relative overflow-hidden bg-brand-900 text-white">
-        <Scribble variant="compass" className="right-[8%] top-4 h-16 w-16 opacity-30" />
-        <Scribble variant="cross" className="right-[24%] bottom-6 h-9 w-9 opacity-20" />
+        <Scribble variant="compass" className="right-[8%] top-4 h-20 w-20 opacity-45" />
+        <Scribble variant="cross" className="right-[24%] bottom-6 h-12 w-12 opacity-35" />
         <Container>
-          <div className="relative flex min-h-[19rem] flex-col justify-center py-10 sm:min-h-[24rem] sm:py-14">
+          <div className="animate-slide-in-left relative flex min-h-[19rem] flex-col justify-center py-10 sm:min-h-[24rem] sm:py-14">
             <nav aria-label="Remah roti" className="text-sm text-ink-400">
               <ol className="flex items-center gap-2">
                 <li>
@@ -90,65 +91,72 @@ export default async function ServicesPage() {
         </Container>
       </div>
 
-      <Container>
-        <div className="space-y-6 py-10 sm:space-y-8">
-          {services.length === 0 ? (
-            <p className="rounded-card border border-dashed border-ink-300 bg-ink-50 px-6 py-14 text-center text-ink-600">
-              Daftar layanan sedang diperbarui. Silakan hubungi kami langsung
-              untuk informasi harga.
-            </p>
-          ) : (
-            services.map((service) => (
-              <ServiceDetail key={service.id} service={service} />
-            ))
-          )}
-        </div>
-      </Container>
-
-      <Section tone="muted" id="cara-pesan">
-        <SectionHeading
-          eyebrow="Cara pesan"
-          title="Tiga langkah, tanpa ribet"
-          description="Dari pesan pertama sampai teknisi datang, prosesnya sederhana dan jelas."
-        />
-        <ol className="mx-auto mt-10 grid max-w-4xl gap-px overflow-hidden border border-ink-900 bg-ink-900 sm:grid-cols-3">
-          {STEPS.map((step, index) => (
-            <li key={step.title} className="bg-white p-6">
-              <span className="font-display text-sm font-semibold text-brand-600">
-                0{index + 1}
-              </span>
-              <h3 className="mt-2 text-base font-semibold text-ink-900">
-                {step.title}
-              </h3>
-              <p className="mt-2 text-sm leading-relaxed text-ink-600">
-                {step.body}
+      <Reveal delay={80}>
+        <Container>
+          <div className="space-y-6 py-10 sm:space-y-8">
+            {services.length === 0 ? (
+              <p className="rounded-card border border-dashed border-ink-300 bg-ink-50 px-6 py-14 text-center text-ink-600">
+                Daftar layanan sedang diperbarui. Silakan hubungi kami langsung
+                untuk informasi harga.
               </p>
-            </li>
-          ))}
-        </ol>
-      </Section>
-
-      <Section tone="brand" className="relative overflow-hidden">
-        <Scribble variant="compass" className="left-10 bottom-6 h-16 w-16 opacity-40" />
-        <div className="relative mx-auto max-w-3xl text-center">
-          <h2 className="text-3xl sm:text-4xl">Butuh penanganan hari ini?</h2>
-          <p className="mt-4 text-lg text-ink-300">
-            Kami melayani {SITE.serviceAreas.slice(0, 4).join(", ")}, dan
-            sekitarnya. Hubungi kami untuk ketersediaan jadwal hari ini.
-          </p>
-          <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
-            {hasWhatsApp ? (
-              <ExternalButtonLink href={generalEnquiry()} variant="invert" size="lg">
-                <WhatsAppIcon className="h-5 w-5" />
-                Chat WhatsApp
-              </ExternalButtonLink>
-            ) : null}
-            <ButtonLink href="/kontak" variant="outline-invert" size="lg">
-              Kirim pesan
-            </ButtonLink>
+            ) : (
+              services.map((service) => (
+                <ServiceDetail key={service.id} service={service} />
+              ))
+            )}
           </div>
-        </div>
-      </Section>
+        </Container>
+      </Reveal>
+
+      <Reveal delay={160}>
+        <Section tone="muted" id="cara-pesan">
+          <SectionHeading
+            eyebrow="Cara pesan"
+            title="Tiga langkah, tanpa ribet"
+            description="Dari pesan pertama sampai teknisi datang, prosesnya sederhana dan jelas."
+          />
+          <ol className="mx-auto mt-10 grid max-w-4xl gap-px overflow-hidden border border-ink-900 bg-ink-900 sm:grid-cols-3">
+            {STEPS.map((step, index) => (
+              <li key={step.title} className="bg-white p-6">
+                <span className="font-display text-sm font-semibold text-brand-600">
+                  0{index + 1}
+                </span>
+                <h3 className="mt-2 text-base font-semibold text-ink-900">
+                  {step.title}
+                </h3>
+                <p className="mt-2 text-sm leading-relaxed text-ink-600">
+                  {step.body}
+                </p>
+              </li>
+            ))}
+          </ol>
+        </Section>
+      </Reveal>
+
+      <Reveal delay={240}>
+        <Section tone="brand" className="relative overflow-hidden">
+          <Scribble variant="compass" className="left-10 bottom-6 h-20 w-20 opacity-55" />
+          <Scribble variant="cross" className="right-[8%] top-6 h-12 w-12 opacity-45" tone="gold" />
+          <div className="relative mx-auto max-w-3xl text-center">
+            <h2 className="text-3xl sm:text-4xl">Butuh penanganan hari ini?</h2>
+            <p className="mt-4 text-lg text-ink-300">
+              Kami melayani {SITE.serviceAreas.slice(0, 4).join(", ")}, dan
+              sekitarnya. Hubungi kami untuk ketersediaan jadwal hari ini.
+            </p>
+            <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
+              {hasWhatsApp ? (
+                <ExternalButtonLink href={generalEnquiry()} variant="invert" size="lg">
+                  <WhatsAppIcon className="h-5 w-5" />
+                  Chat WhatsApp
+                </ExternalButtonLink>
+              ) : null}
+              <ButtonLink href="/kontak" variant="outline-invert" size="lg">
+                Kirim pesan
+              </ButtonLink>
+            </div>
+          </div>
+        </Section>
+      </Reveal>
     </>
   );
 }
