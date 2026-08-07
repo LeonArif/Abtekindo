@@ -18,3 +18,5 @@ Thumbs.db
 # misc
 .claude
 .lavish
+.vercel
+.env*
